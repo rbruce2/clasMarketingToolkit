@@ -1,0 +1,9 @@
+{
+  "generator-angm": {
+    "appName": "clas-marketing-tool-kit",
+    "angularCookies": true,
+    "angularAnimate": true,
+    "angularSanitize": true,
+    "angularMaterial": true
+  }
+}
