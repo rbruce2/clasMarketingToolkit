@@ -35,7 +35,7 @@
     'A200': 'ff5252',
     'A400': 'ff1744',
     'A700': 'd50000',
-    'contrastDefaultColor': 'light',    // whether, by default, text (contrast)
+    'contrastDefaultColor': 'dark',    // whether, by default, text (contrast)
                                         // on this palette should be dark or light
 
     'contrastDarkColors': ['50', '100', //hues which contrast should be 'dark' by default

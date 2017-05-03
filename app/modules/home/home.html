@@ -4,7 +4,7 @@
             <div layout="column" class="md-toolbar-tools-bottom inset">
                 <div layout="row">
                     <div flex="80" style="margin-top: 10px;">
-                        <div>ASU Logo</div>
+                        <div><img src="/app/assets/images/asu_logo.png" alt="" style="width:242px;"></div>
                     </div>
                 </div>
             </div>
@@ -22,20 +22,20 @@
                 </div>
                 <p > {{ item.name }}</p>
             </md-list-item>
-            <md-divider></md-divider>
+            <!-- <md-divider></md-divider>
             <md-subheader>Admin</md-subheader>
             <md-list-item ng-repeat="item in vm.admin" ng-click="vm.showSettingsBottom($event)" >
                 <div class="inset">
                     <ng-md-icon icon="{{item.icon}}"></ng-md-icon>
                 </div>
                 <p> {{ item.title }}</p>
-            </md-list-item>
+            </md-list-item> -->
         </md-list>
     </div>
 </md-sidenav>
 
 <div layout="column" class="relative" layout-fill role="main" ng-controller="LayoutCtrl as layout" ng-cloak>
-    <md-toolbar ng-show="!showSearch">
+    <!-- <md-toolbar ng-show="!showSearch">
         <div class="md-toolbar-tools">
             <md-button ng-click="layout.toggleSidenav('left')" hide-gt-md aria-label="Menu">
                 <ng-md-icon icon="menu"></ng-md-icon>
@@ -72,7 +72,7 @@
                 </md-menu-content>
             </md-menu>
         </div>
-    </md-toolbar>
+    </md-toolbar> -->
     <md-toolbar class="md-hue-1" ng-show="showSearch">
         <div class="md-toolbar-tools">
             <md-button ng-click="showSearch = !showSearch" aria-label="Back">
@@ -87,7 +87,7 @@
             </md-input-container>
         </div>
     </md-toolbar>
-    <md-content layout="column" flex md-scroll-y style="background-color:#DCDCDC">
+    <md-content layout="column" flex md-scroll-y style="background-color:#EBF0F1;">
         <div ui-view></div>
     </md-content>
 </div>
