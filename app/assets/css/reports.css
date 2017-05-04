@@ -1,0 +1,31 @@
+.reportRow{
+  margin: 0 auto;
+  background-color: whitesmoke;
+  padding: 14px;
+}
+
+.reportTitle{
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.runBtn{
+  float: right;
+  margin-top: -14px;
+}
+
+.runBtn a{
+  -webkit-border-radius: 28;
+   -moz-border-radius: 28;
+   border-radius: 28px;
+   font-family: Arial;
+   color: #3498db;
+   font-size: 16px;
+   padding: 2px 20px 2px 20px;
+   border: solid #3498db 2px;
+   text-decoration: none;
+}
+
+.fullHeight{
+  height: calc(100vh - 50px);
+}
