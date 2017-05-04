@@ -4,6 +4,17 @@
     "angularCookies": true,
     "angularAnimate": true,
     "angularSanitize": true,
-    "angularMaterial": true
+    "angularMaterial": true,
+    "modules": [
+      {
+        "name": "reports"
+      }
+    ],
+    "menu": [
+      {
+        "link": "reports",
+        "title": "Reports"
+      }
+    ]
   }
 }
