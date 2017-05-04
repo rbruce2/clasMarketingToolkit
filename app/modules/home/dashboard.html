@@ -1,7 +1,24 @@
 <div class="md-padding" flex layout-sm="column">
-    <md-card class="text-center">
+    <md-card class="text-center centerVandH">
         <md-card-content>
-            <h1>{{ vm.title }}</h1>
+            <h1>Hello, what would you like to do?</h1>
+            <div layout="row"class="wtdBtns">
+              <div flex>
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x asuRed"></i>
+                  <i class="fa fa-search fa-stack-1x fa-inverse"></i>
+                </span>
+                <h4>Search</h4>
+              </div>
+              <div flex>
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x asuRed"></i>
+                  <i class="fa fa-bar-chart fa-stack-1x fa-inverse"></i>
+                </span>
+                <h4>Reports</h4>
+              </div>
+            </div>
+            <!-- <h1>{{ vm.title }}</h1>
             <h3>{{ vm.version }}</h3>
             <p>This is a template for a simple home screen website. Use it as a starting point to create something more unique.</p>
             <code>app/modules/home/home.html</code>
@@ -13,7 +30,7 @@
                 <li class=" text-center" ng-repeat="item in vm.listFeatures">
                     <p><ng-md-icon icon="check"></ng-md-icon> {{item.feature}}</p>
                 </li>
-            </ul>
+            </ul> -->
         </md-card-content>
     </md-card>
 </div>
