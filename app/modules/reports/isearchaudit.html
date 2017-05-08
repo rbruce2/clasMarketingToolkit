@@ -1,0 +1,38 @@
+<p class="modTitle">Reports - iSearch Profile Audit</p>
+<span class="floatRightTop blueBtn"><a href="#!/reports">More Reports</a></span>
+<div class="md-padding" flex layout-sm="column">
+    <md-card class="fullHeight">
+        <md-card-content>
+            <br>
+            <h2 class="text-center">Which school/department would you like to audit?</h2><br>
+
+            <div layout="row" flex="50" class="centerRow">
+                <md-select ng-model="vm.department" placeholder="School/Department" class="centerRow">
+                  <md-option value="191972"><strong>College of Liberal Arts & Sciences</strong></md-option>
+                  <md-option value="198132" flex-offset="5">American Indian Studies</md-option>
+                  <md-option value="198133" flex-offset="5">English</md-option>
+                  <md-option value="198134" flex-offset="5">Hugh Downs School Of Communication</md-option>
+                  <md-option value="198135" flex-offset="5">Physics</md-option>
+                  <md-option value="198136" flex-offset="5">Psychology</md-option>
+                  <md-option value="198137" flex-offset="5">School Of Earth & Space Exploration</md-option>
+                  <md-option value="198138" flex-offset="5">School of Geographical Sciences & Urban Planning</md-option>
+                  <md-option value="198146" flex-offset="5">School of Historical, Philosophical and Religious Studies</md-option>
+                  <md-option value="198145" flex-offset="5">School of Human Evolution and Social Change</md-option>
+                  <md-option value="198147" flex-offset="5">School of International Letters and Cultures</md-option>
+                  <md-option value="198148" flex-offset="5">School of Life Sciences</md-option>
+                  <md-option value="198139" flex-offset="5">School of Math & Stat Sciences</md-option>
+                  <md-option value="198140" flex-offset="5">School of Molecular Sciences</md-option>
+                  <md-option value="198141" flex-offset="5">School of Politics & Global Studies</md-option>
+                  <md-option value="198143" flex-offset="5">School of Social Transformation</md-option>
+                  <md-option value="198144" flex-offset="5">School of Transborder Studies</md-option>
+                  <md-option value="198149" flex-offset="5">The Sanford School</md-option>
+                </md-select>
+            </div>
+
+            <div class="text-center" style="padding-top:25px;">
+              <span class="blueBtn"><a href="#!/reports/isearchaudit" ng-click="vm.testAlert()">Run</a></span>
+            </div>
+
+        </md-card-content>
+    </md-card>
+</div>

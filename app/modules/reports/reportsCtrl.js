@@ -13,7 +13,7 @@
 		.module('reports')
 		.controller('ReportsCtrl', Reports);
 
-		Reports.$inject = [];
+		Reports.$inject = ['ReportsService'];
 
 		/*
 		* recommend
@@ -21,9 +21,23 @@
 		* and bindable members up top.
 		*/
 
-		function Reports() {
+		function Reports(ReportsService) {
 			/*jshint validthis: true */
 			var vm = this;
+
+			vm.testAlert = function() {
+				console.log(vm.department);
+				ReportsService.getHello();
+				ReportsService.getDepInfo(vm.department, function(res) {
+					console.log(res);
+
+				}, function(res_err) {
+					console.log('error');
+					console.log(res_err);
+				});
+			}
+
+
 
 		}
 

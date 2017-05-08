@@ -1,0 +1,21 @@
+<p class="modTitle">Reports - Web Audit</p>
+<span class="floatRightTop blueBtn"><a href="#!/reports">More Reports</a></span>
+<div class="md-padding" flex layout-sm="column">
+    <md-card class="fullHeight">
+        <md-card-content>
+            <br>
+            <h2 class="text-center">Which website would you like to audit?</h2><br>
+
+            <div layout="row" flex="50" class="centerRow">
+                <md-input-container class="md-block" flex-gt-sm>
+                  <label>Website URL</label>
+                  <input ng-model="vm.webaudit.url">
+                </md-input-container>
+            </div>
+            <div class="text-center">
+              <span class="blueBtn"><a href="#!/reports/webaudit">Run</a></span>
+            </div>
+
+        </md-card-content>
+    </md-card>
+</div>

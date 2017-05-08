@@ -1,7 +1,10 @@
 .reportRow{
-  margin: 0 auto;
   background-color: whitesmoke;
   padding: 14px;
+}
+
+.centerRow{
+  margin: 0 auto;
 }
 
 .reportTitle{
@@ -9,12 +12,18 @@
   font-weight: bold;
 }
 
-.runBtn{
+.floatRight{
   float: right;
   margin-top: -14px;
 }
 
-.runBtn a{
+.floatRightTop{
+  float: right;
+  margin-top: -22px;
+  padding-right: 25px;
+}
+
+.blueBtn a{
   -webkit-border-radius: 28;
    -moz-border-radius: 28;
    border-radius: 28px;
