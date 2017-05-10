@@ -3,6 +3,9 @@
 module.exports = function (grunt) {
 	"use strict";
 
+	//grunt express inject
+	grunt.loadNpmTasks('grunt-express-server');
+
 	// Project configuration.
 	grunt.initConfig({
 
@@ -31,6 +34,18 @@ module.exports = function (grunt) {
 		exec: {
 			bowerInstaller: 'bower-installer'
 		},
+
+		express: {
+	    options: {
+	      // Override defaults here
+	    },
+	    dev: {
+	      options: {
+	        script: 'server.js'
+	      }
+	    }
+	  },
+
 
 		concat: {
 			options: {
@@ -113,7 +128,7 @@ module.exports = function (grunt) {
 			options: {},
 			dev: {
 				files: {
-					'index.html': [
+					'app/index.html': [
 						'bower.json',
 						'app/app.js',
 						'app/app.config.js',
@@ -127,7 +142,7 @@ module.exports = function (grunt) {
 			},
 			production: {
 				files: {
-					'index.html': [
+					'app/index.html': [
 						'app/assets/css/**/*.css',
 						'app/assets/js/*.js'
 					]
@@ -171,5 +186,6 @@ module.exports = function (grunt) {
 
 	// Development task(s).
 	grunt.registerTask('dev', ['injector', 'concurrent']);
+	grunt.registerTask('express-dev', ['injector', 'express', 'watch']);
 
 };
