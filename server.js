@@ -1,5 +1,19 @@
 var express = require("express");
- var app = express();
+var app = express();
+
+var httpProxy = require('http-proxy');
+var apiForwardingUrl = 'https://isearch.asu.edu/endpoints/dept-profiles/json/';
+
+var proxyOptions = {
+    changeOrigin: true
+};
+
+httpProxy.prototype.onError = function (err) {
+    console.log(err);
+};
+
+
+var apiProxy = httpProxy.createProxyServer(proxyOptions);
 
  app.use(express.static(__dirname + '/app'));
 
@@ -7,6 +21,14 @@ var express = require("express");
  app.get("/", function(req, res) {
     res.sendFile('index.html')
  });
+
+ // Grab all requests to the server with "/isearchproxy/".
+ app.get("/isearchproxy/:depId", function(req, res) {
+     console.log("Request made to /isearchproxy/");
+     console.log(req.params.depId);
+     apiProxy.web(req, res, {target: apiForwardingUrl+req.params.depId});
+ });
+
 
  /* serves all the static files */
  app.get(/^(.+)$/, function(req, res){

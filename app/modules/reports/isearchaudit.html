@@ -1,5 +1,7 @@
 <p class="modTitle">Reports - iSearch Profile Audit</p>
 <span class="floatRightTop blueBtn"><a href="#!/reports">More Reports</a></span>
+
+<!-- Report Request Form -->
 <div class="md-padding" flex layout-sm="column">
     <md-card class="fullHeight">
         <md-card-content>
@@ -30,9 +32,41 @@
             </div>
 
             <div class="text-center" style="padding-top:25px;">
-              <span class="blueBtn"><a href="#!/reports/isearchaudit" ng-click="vm.testAlert()">Run</a></span>
+              <span class="blueBtn"><a href="#!/reports/isearchaudit" ng-click="vm.runProfileAudit()">Run</a></span>
             </div>
 
         </md-card-content>
     </md-card>
 </div>
+<!-- END: Report Request Form -->
+
+<!-- Report Results -->
+<div class="md-padding" flex layout-sm="column">
+    <md-card class="">
+        <md-card-content>
+            <br>
+            <h2 class="text-center">iSearch Profile Audit Report</h2><br>
+
+            <div class="reportResults" layout="row">
+
+              <div flex="70" class="">
+                <div class="userResult" ng-repeat="user in vm.isearch_results">
+                  <img src="{{user.photoUrl}}" alt="">
+                  <p>
+                    <strong>{{user.displayName}}</strong>
+                    <span class="resultPriDep">{{user.primaryDepartment}}  {{user.audit_score | number:0}}%</span>
+                  </p>
+                </div>
+              </div>
+
+
+              <div flex="25" class="overallResults">
+                <p>hello world!</p>
+              </div>
+
+            </div>
+
+        </md-card-content>
+    </md-card>
+</div>
+<!-- END: Report Results -->

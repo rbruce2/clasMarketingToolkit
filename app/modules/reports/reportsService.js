@@ -18,14 +18,14 @@
 
 		function Reports ($http) {
 
-			var baseUrl = 'https://isearch.asu.edu/endpoints/dept-profiles/json/';
+			// var baseUrl = 'https://isearch.asu.edu/endpoints/dept-profiles/json/';
 
 			return {
 				getHello: function() {
 					console.log('hello');
 				},
 				getDepInfo: function(depId, success, error) {
-					$http.get(baseUrl + depId).success(success).error(error);
+					$http.get('isearchproxy/' + depId).then(success, error);
 				}
 			};
 
