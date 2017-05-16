@@ -22,7 +22,7 @@
 		// $mdThemingProvider.theme('default').primaryPalette('pink').accentPallete('orange');
 		$mdThemingProvider.definePalette('asuPalette', {
     '50': 'ffebee',
-    '100': 'ffcdd2',
+    '100': 'f5f5f5',
     '200': 'ef9a9a',
     '300': 'e57373',
     '400': 'ef5350',

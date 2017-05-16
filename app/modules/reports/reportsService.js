@@ -14,19 +14,29 @@
 		// Inject your dependencies as .$inject = ['$http', 'someSevide'];
 		// function Name ($http, someSevide) {...}
 
-		Reports.$inject = ['$http'];
+		Reports.$inject = ['$http', '$q', '$rootScope'];
 
-		function Reports ($http) {
+		function Reports ($http, $q, $rootScope) {
 
 			// var baseUrl = 'https://isearch.asu.edu/endpoints/dept-profiles/json/';
 
 			return {
-				getHello: function() {
-					console.log('hello');
+				getDepTree: function(success, error) {
+					$http.get('depTree.json').then(success, error);
 				},
-				getDepInfo: function(depId, success, error) {
-					$http.get('isearchproxy/' + depId).then(success, error);
-				}
+				getDepInfo: function(depIds) {
+					var promises = [];
+
+					angular.forEach(depIds, function(depId) {
+						var promise = $http.get('isearchproxy/' + depId);
+						promises.push(promise);
+					});
+
+					// $rootScope.load_notes = 'loading dep ids: ' + promises;
+
+					return $q.all(promises);
+
+				},
 			};
 
 		}

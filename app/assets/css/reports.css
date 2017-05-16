@@ -61,4 +61,22 @@
 
 .resultPriDep{
   float: right;
+
+}
+
+.overallResults{
+  text-align: center;
+  background-color: #3498db;
+  border-radius: 4px;
+}
+
+.overallTitle{
+  background-color: #5cb0e8;
+  color: #ffffff;
+  margin: 0;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: 5000;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
 }

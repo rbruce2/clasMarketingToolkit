@@ -2,7 +2,7 @@
 <span class="floatRightTop blueBtn"><a href="#!/reports">More Reports</a></span>
 
 <!-- Report Request Form -->
-<div class="md-padding" flex layout-sm="column">
+<div class="md-padding" flex layout-sm="column" ng-if="!vm.ranReport">
     <md-card class="fullHeight">
         <md-card-content>
             <br>
@@ -10,24 +10,63 @@
 
             <div layout="row" flex="50" class="centerRow">
                 <md-select ng-model="vm.department" placeholder="School/Department" class="centerRow">
-                  <md-option value="191972"><strong>College of Liberal Arts & Sciences</strong></md-option>
-                  <md-option value="198132" flex-offset="5">American Indian Studies</md-option>
-                  <md-option value="198133" flex-offset="5">English</md-option>
-                  <md-option value="198134" flex-offset="5">Hugh Downs School Of Communication</md-option>
-                  <md-option value="198135" flex-offset="5">Physics</md-option>
-                  <md-option value="198136" flex-offset="5">Psychology</md-option>
-                  <md-option value="198137" flex-offset="5">School Of Earth & Space Exploration</md-option>
-                  <md-option value="198138" flex-offset="5">School of Geographical Sciences & Urban Planning</md-option>
-                  <md-option value="198146" flex-offset="5">School of Historical, Philosophical and Religious Studies</md-option>
-                  <md-option value="198145" flex-offset="5">School of Human Evolution and Social Change</md-option>
-                  <md-option value="198147" flex-offset="5">School of International Letters and Cultures</md-option>
-                  <md-option value="198148" flex-offset="5">School of Life Sciences</md-option>
-                  <md-option value="198139" flex-offset="5">School of Math & Stat Sciences</md-option>
-                  <md-option value="198140" flex-offset="5">School of Molecular Sciences</md-option>
-                  <md-option value="198141" flex-offset="5">School of Politics & Global Studies</md-option>
-                  <md-option value="198143" flex-offset="5">School of Social Transformation</md-option>
-                  <md-option value="198144" flex-offset="5">School of Transborder Studies</md-option>
-                  <md-option value="198149" flex-offset="5">The Sanford School</md-option>
+                  <md-option value="1409"><strong>College of Liberal Arts & Sciences</strong></md-option>
+                  <md-option value="0" flex-offset="5">Aerospace Studies</md-option>
+                  <md-option value="1" flex-offset="5">American Indian Policy Institute</md-option>
+                  <md-option value="2" flex-offset="5">American Indian Studies</md-option>
+                  <md-option value="3" flex-offset="5">Az Ctr Medieval/Renais Studies</md-option>
+                  <md-option value="4" flex-offset="5">Center For Asian Research</md-option>
+                  <md-option value="5" flex-offset="5">Center for Bioenergy & Photosynthesis</md-option>
+                  <md-option value="6" flex-offset="5">Center For Film Media Research</md-option>
+                  <md-option value="7" flex-offset="5">Center for Meteorite Studies</md-option>
+                  <md-option value="8" flex-offset="5">CLAS Advancement</md-option>
+                  <md-option value="9" flex-offset="5">CLAS IDT</md-option>
+                  <md-option value="10" flex-offset="5">CLAS Journals</md-option>
+                  <md-option value="11" flex-offset="5">CLAS MLS Program</md-option>
+                  <md-option value="12" flex-offset="5">CLAS Office of Student & Acad</md-option>
+                  <md-option value="13" flex-offset="5">CLAS Res & Facil</md-option>
+                  <md-option value="14" flex-offset="5">CLAS Research Technical Serv</md-option>
+                  <md-option value="15" flex-offset="5">Department of Physics</md-option>
+                  <md-option value="16" flex-offset="5">English</md-option>
+                  <md-option value="17" flex-offset="5">Gerontology</md-option>
+                  <md-option value="18" flex-offset="5">Hispanic Research Center</md-option>
+                  <md-option value="19" flex-offset="5">Hugh Downs School Of Human Communication</md-option>
+                  <md-option value="20" flex-offset="5">Inst For Social Science Rsch</md-option>
+                  <md-option value="21" flex-offset="5">Institute Humanities Research</md-option>
+                  <md-option value="22" flex-offset="5">Institute of Human Origins</md-option>
+                  <md-option value="23" flex-offset="5">Jewish Studies</md-option>
+                  <md-option value="24" flex-offset="5">Kinesiology Peb East</md-option>
+                  <md-option value="25" flex-offset="5">Kinesiology Peb West</md-option>
+                  <md-option value="26" flex-offset="5">LeRoy Eyring CSSS</md-option>
+                  <md-option value="27" flex-offset="5">Lincoln Center Applied Ethics</md-option>
+                  <md-option value="28" flex-offset="5">Mathematics</md-option>
+                  <md-option value="29" flex-offset="5">MCMSC</md-option>
+                  <md-option value="30" flex-offset="5">Melikian Center</md-option>
+                  <md-option value="31" flex-offset="5">Military Science</md-option>
+                  <md-option value="32" flex-offset="5">NACTS</md-option>
+                  <md-option value="33" flex-offset="5">Naval Science</md-option>
+                  <md-option value="34" flex-offset="5">Office Of Climatology</md-option>
+                  <md-option value="35" flex-offset="5">Origins</md-option>
+                  <md-option value="36" flex-offset="5">Piper Center</md-option>
+                  <md-option value="37" flex-offset="5">Prgm Soc Dynamics & Complexity</md-option>
+                  <md-option value="38" flex-offset="5">PRIME Center</md-option>
+                  <md-option value="39" flex-offset="5">Program Metabolic Biology</md-option>
+                  <md-option value="40" flex-offset="5">Project Humanities</md-option>
+                  <md-option value="41" flex-offset="5">Psychology</md-option>
+                  <md-option value="42" flex-offset="5">School of Civic and Economic Thought and Leadership</md-option>
+                  <md-option value="43" flex-offset="5">School Of Earth and Space Exploration</md-option>
+                  <md-option value="44" flex-offset="5">School of Geog Sci & Urban Pln</md-option>
+                  <md-option value="45" flex-offset="5">School of Human Evolution and Social Change</md-option>
+                  <md-option value="46" flex-offset="5">School of Life Sciences</md-option>
+                  <md-option value="47" flex-offset="5">School of Molecular Sciences</md-option>
+                  <md-option value="48" flex-offset="5">School of Politics & Global St</md-option>
+                  <md-option value="49" flex-offset="5">School of Social Transformation</md-option>
+                  <md-option value="50" flex-offset="5">School of Transborder Studies</md-option>
+                  <md-option value="51" flex-offset="5">SHPRS</md-option>
+                  <md-option value="52" flex-offset="5">SILC</md-option>
+                  <md-option value="53" flex-offset="5">Study Of Religion & Conflict</md-option>
+                  <md-option value="54" flex-offset="5">The Beyond Center</md-option>
+                  <md-option value="55" flex-offset="5">The Sanford School</md-option>
                 </md-select>
             </div>
 
@@ -43,14 +82,21 @@
 <!-- Report Results -->
 <div class="md-padding" flex layout-sm="column">
     <md-card class="">
-        <md-card-content>
+        <md-progress-linear md-mode="indeterminate" ng-if="vm.loading()"></md-progress-linear>
+        <md-card-content id="loading" ng-if="vm.loading()" class="text-center">
+          <!-- loading...{{load_notes}} -->
+          <h2 class="text-center">Generating report ...</h2><br>
+          <img src="/app/assets/images/reportIsearch.png" alt="" style="width:400px;">
+          <p>This may take a few minutes to load. Please be patient and do not reload this page.</p>
+        </md-card-content>
+        <md-card-content ng-if="!vm.loading() && vm.reportDone">
             <br>
             <h2 class="text-center">iSearch Profile Audit Report</h2><br>
 
             <div class="reportResults" layout="row">
 
               <div flex="70" class="">
-                <div class="userResult" ng-repeat="user in vm.isearch_results">
+                <div class="userResult" ng-repeat="user in vm.isearch_results track by $index">
                   <img src="{{user.photoUrl}}" alt="">
                   <p>
                     <strong>{{user.displayName}}</strong>
@@ -60,8 +106,18 @@
               </div>
 
 
-              <div flex="25" class="overallResults">
-                <p>hello world!</p>
+              <div flex="30" layout="column" style="padding-left:28px;margin-top:7px;">
+
+                <div class="overallResults ">
+                  <p class="overallTitle">Overall Score</p>
+                  <p style="color:#ffffff;"><ng-gauge size="200" type="full" thick="7" used="vm.overall_total | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge></p>
+                </div>
+
+                <div class="">
+                  <p><strong>Filter:</strong></p>
+                  <p>filter options will go here</p>
+                </div>
+
               </div>
 
             </div>
