@@ -106,17 +106,18 @@
               </div>
 
 
-              <div flex="30" layout="column" style="padding-left:28px;margin-top:7px;">
-
-                <div class="overallResults ">
+              <div flex="30" layout="column" style="padding-left:28px;margin-top:-7px;">
+                <md-subheader style="background-color:#ffffff;">
+                <div class="overallResults">
                   <p class="overallTitle">Overall Score</p>
-                  <p style="color:#ffffff;"><ng-gauge size="200" type="full" thick="7" used="vm.overall_total | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge></p>
+                  <p style="color:#ffffff;padding-bottom:12px;"><ng-gauge size="200" type="full" thick="7" used="vm.overall_total | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge></p>
                 </div>
 
                 <div class="">
                   <p><strong>Filter:</strong></p>
                   <p>filter options will go here</p>
                 </div>
+                </md-subheader>
 
               </div>
 
