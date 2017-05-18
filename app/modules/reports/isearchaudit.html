@@ -2,7 +2,7 @@
 <span class="floatRightTop blueBtn"><a href="#!/reports">More Reports</a></span>
 
 <!-- Report Request Form -->
-<div class="md-padding" flex layout-sm="column" ng-if="!vm.ranReport">
+<div class="md-padding fade" flex layout-sm="column" ng-if="!vm.ranReport">
     <md-card class="fullHeight">
         <md-card-content>
             <br>
@@ -82,16 +82,19 @@
 <!-- Report Results -->
 <div class="md-padding" flex layout-sm="column">
     <md-card class="">
-        <md-progress-linear md-mode="indeterminate" ng-if="vm.loading()"></md-progress-linear>
+        <!-- loader -->
+        <!-- <md-progress-linear md-mode="indeterminate" ng-if="vm.loading()"></md-progress-linear> -->
         <md-card-content id="loading" ng-if="vm.loading()" class="text-center">
           <!-- loading...{{load_notes}} -->
-          <h2 class="text-center">Generating report ...</h2><br>
-          <img src="/app/assets/images/reportIsearch.png" alt="" style="width:400px;">
-          <p>This may take a few minutes to load. Please be patient and do not reload this page.</p>
+          <h2 class="text-center" style="margin-bottom:0px;">Generating iSearch Audit Report</h2><br>
+          <img src="/app/assets/images/searchReportnodither.gif" alt="" style="width:400px;">
+          <p style="padding-bottom:25px;font-weight:bold;">This may take a few minutes to load. Please be patient and <u>do not reload this page.</u></p>
         </md-card-content>
-        <md-card-content ng-if="!vm.loading() && vm.reportDone">
+
+        <!-- isearch Report -->
+        <md-card-content class="fade" ng-if="!vm.loading() && vm.reportDone">
             <br>
-            <h2 class="text-center">iSearch Profile Audit Report</h2><br>
+            <h2 class="text-center">{{vm.department}}iSearch Profile Audit Report</h2><span class="floatRightTop blueBtn ng-scope"><a href="#!/reports/isearchaudit">Back</a></span><br>
 
             <div class="reportResults" layout="row">
 
