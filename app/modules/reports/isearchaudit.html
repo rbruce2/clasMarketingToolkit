@@ -94,12 +94,12 @@
         <!-- isearch Report -->
         <md-card-content class="fade" ng-if="!vm.loading() && vm.reportDone">
             <br>
-            <h2 class="text-center">{{vm.department}}iSearch Profile Audit Report</h2><span class="floatRightTop blueBtn ng-scope"><a href="#!/reports/isearchaudit">Back</a></span><br>
+            <h2 class="text-center">iSearch Profile Audit Report</h2><span class="floatRightTop blueBtn ng-scope"><a href="#!/reports/isearchaudit">Back</a></span><br>
 
             <div class="reportResults" layout="row">
 
               <div flex="70" class="">
-                <div class="userResult" ng-repeat="user in vm.isearch_results track by $index">
+                <div class="userResult" ng-repeat="user in vm.isearch_results | filter: {audit_score: score} track by $index">
                   <img src="{{user.photoUrl}}" alt="">
                   <p>
                     <strong>{{user.displayName}}</strong>
@@ -118,7 +118,9 @@
 
                 <div class="">
                   <p><strong>Filter:</strong></p>
-                  <p>filter options will go here</p>
+                  <p>
+                    <input type="text" ng-model="score">
+                  </p>
                 </div>
                 </md-subheader>
 

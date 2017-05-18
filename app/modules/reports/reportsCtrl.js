@@ -156,8 +156,15 @@
 					});
 
 
-			} //end runProfileAudit2
+			} //end runProfileAudit
 
+			// isearch Audit Filter
+			vm.filterScore = function(prop, val) {
+				console.log('filter ran');
+				return function(user) {
+					if(item[prop] > val) return true;
+				}
+			};
 
 
 
