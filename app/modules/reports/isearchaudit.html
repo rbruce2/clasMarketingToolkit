@@ -99,11 +99,13 @@
             <div class="reportResults" layout="row">
 
               <div flex="70" class="">
-                <div class="userResult" ng-repeat="user in vm.isearch_results | filter: {audit_score: score} track by $index">
-                  <img src="{{user.photoUrl}}" alt="">
+                <div class="userResult" ng-repeat="user in vm.isearch_results | filter: {audit_score: score} track by $index" ng-click="vm.togglePageslide($index)">
+                  <img ng-src="{{user.photoUrl}}" alt="">
                   <p>
                     <strong>{{user.displayName}}</strong>
-                    <span class="resultPriDep">{{user.primaryDepartment}}  {{user.audit_score | number:0}}%</span>
+                    <span class="resultPriDep">{{user.primaryDepartment}}
+                      <span ng-class="{'complete' : user.audit_score == 100, 'good' : user.audit_score < 100 && user.audit_score > 89, 'fair' : user.audit_score <= 89 && user.audit_score >= 75, 'bad' : user.audit_score < 75}">{{user.audit_score | number:0}}%</span>
+                    </span>
                   </p>
                 </div>
               </div>
@@ -132,3 +134,137 @@
     </md-card>
 </div>
 <!-- END: Report Results -->
+
+<!-- pageslide template -->
+<div class="someClass" ng-if="vm.checked" style="position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.59);">
+</div>
+<div pageslide ps-open="vm.checked" ps-size="33%">
+    <div style="padding:20px" id="demo-right">
+      <div class="detailsHeaderInfo">
+        <img src="{{vm.UserSlider.photoUrl}}" alt="">
+        <div class="dhiLeft">
+          <h2>{{vm.UserSlider.displayName}}</h2>
+          <p>{{vm.UserSlider.primaryDepartment}}</p>
+        </div>
+        <div class="dhiRight">
+          <a href="" ng-click="vm.togglePageslide()" ><i class="fa fa-close"></i></a>
+          <p class="detailsOverallScore" ng-class="{'complete' : vm.UserSlider.audit_score == 100, 'good' : vm.UserSlider.audit_score < 100 && vm.UserSlider.audit_score > 89, 'fair' : vm.UserSlider.audit_score <= 89 && vm.UserSlider.audit_score >= 75, 'bad' : vm.UserSlider.audit_score < 75}">{{vm.UserSlider.audit_score | number:0 }}%</p>
+        </div>
+      </div>
+      <div class="detailsOverview">
+        <div class="doLeft">
+          <h4>Titles:</h4>
+          <ul>
+            <li ng-repeat="title in vm.UserSlider.titles track by $index">{{title}}</li>
+          </ul>
+          <h4>Expertise Areas:</h4>
+          <ul>
+            <li ng-repeat="area in vm.UserSlider.expertiseAreas track by $index">{{area}}</li>
+          </ul>
+        </div>
+        <div class="doRight">
+
+        </div>
+      </div>
+      <div class="tabContent">
+        <md-tabs md-border-bottom class="asuPalette">
+          <md-tab label="Needs Attention" ng-if="vm.UserSlider.audit_score !== 100">
+            <md-content class="md-padding" style="background-color:#ffffff;">
+              <ang-accordion close-icon-class="fa fa-warning" open-icon-class="fa fa-warning" >
+                  <collapsible-item item-title="Missing telephone number" ng-if="vm.UserSlider.audit_phone">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="No picture was found for this profile" ng-if="vm.UserSlider.audit_photoUrl">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="No email was found for this profile" ng-if="vm.UserSlider.audit_email">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Profile does not have a primary title" ng-if="vm.UserSlider.audit_affiliationTitle">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Missing unit affiliation" ng-if="vm.UserSlider.audit_unitName">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Profile does not have any expertise areas" ng-if="vm.UserSlider.audit_expertiseAreas">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Profile should have 3 or more expertise areas" ng-if="vm.UserSlider.audit_expertiseAreas_length">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Missing employee category" ng-if="vm.UserSlider.audit_emplCat">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Missing primary campus location" ng-if="vm.UserSlider.audit_campus">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Profile does not have a mail code" ng-if="vm.UserSlider.audit_mailCode">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Profile does not have a Bio" ng-if="vm.UserSlider.audit_bio">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Bio must be at least 100 words in length" ng-if="vm.UserSlider.audit_bio_min">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Bio must be less than 300 words in length" ng-if="vm.UserSlider.audit_bio_max">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Bio does not seem to be written in 3rd person" ng-if="vm.UserSlider.audit_bio_1stPerson_warning">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Short bio is missing" ng-if="vm.UserSlider.audit_shortBio">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Short bio must be less than 40 words in length" ng-if="vm.UserSlider.audit_shortBio_max">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Short bio includes first name" ng-if="vm.UserSlider.audit_shortBio_firstName">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Short bio does not seem to be written in 3rd person" ng-if="vm.UserSlider.audit_shortBio_1stPerson_warning">
+                      <div>Add work number to profile</div>
+                  </collapsible-item>
+              </ang-accordion>
+            </md-content>
+          </md-tab>
+          <md-tab label="Bio" ng-if="vm.UserSlider.bio">
+            <md-content class="md-padding" style="background-color:#ffffff;">
+              <div class="" ng-bind-html="vm.UserSlider.bio">
+              </div>
+            </md-content>
+          </md-tab>
+          <md-tab label="Short Bio" ng-if="vm.UserSlider.shortBio">
+            <md-content class="md-padding" style="background-color:#ffffff;">
+              <div class="" ng-bind-html="vm.UserSlider.shortBio">
+              </div>
+            </md-content>
+          </md-tab>
+          <md-tab label="Research" ng-if="vm.UserSlider.publications">
+            <md-content class="md-padding" style="background-color:#ffffff;">
+              <div class="" ng-bind-html="vm.UserSlider.publications">
+              </div>
+            </md-content>
+          </md-tab>
+          <md-tab label="Teaching" ng-if="vm.UserSlider.courses">
+            <md-content class="md-padding" style="background-color:#ffffff;">
+              <div class="" ng-bind-html="vm.UserSlider.courses">
+              </div>
+            </md-content>
+          </md-tab>
+          <md-tab label="Public Work" ng-if="vm.UserSlider.pub_work">
+            <md-content class="md-padding" style="background-color:#ffffff;">
+              <div class="" ng-bind-html="vm.UserSlider.pub_work">
+              </div>
+            </md-content>
+          </md-tab>
+        </md-tabs>
+      </div>
+      <div class="slideoutFooter">
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+          <md-button class="md-raised" ng-click="vm.togglePageslide()">Close</md-button>
+          <md-button class="md-raised md-primary" style="color:#ffffff;" ng-href="{{vm.UserSlider.eid}}" target="_blank"><i class="fa fa-user"></i> iSearch Profile</md-button>
+        </section>
+      </div>
+    </div>
+</div>

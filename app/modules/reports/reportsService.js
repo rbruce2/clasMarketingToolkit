@@ -34,9 +34,27 @@
 
 					// $rootScope.load_notes = 'loading dep ids: ' + promises;
 
-					return $q.all(promises);
+					var depsInfo = $q.all(promises);
+					return depsInfo
 
 				},
+				checkImageStatus: function (url, success, error) {
+					$http.get('checkimagestatus?url=' + url).then(success, error)
+				},
+				isImage: function (src) {
+						var deferred = $q.defer();
+
+            var image = new Image();
+            image.onerror = function() {
+                deferred.resolve(false);
+            };
+            image.onload = function() {
+                deferred.resolve(true);
+            };
+            image.src = src;
+
+            return deferred.promise;
+				}
 			};
 
 		}

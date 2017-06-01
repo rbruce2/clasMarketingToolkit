@@ -13,7 +13,7 @@
 	angular.module('clas-marketing-tool-kit', [
 		'ngResource',
 		'ngAria',
-		 'ngMaterial',
+		'ngMaterial',
 		'ngMdIcons',
 		'ngCookies',
 		'ngAnimate',
@@ -22,6 +22,8 @@
 		'home',
 		'reports',
 		'angularjs-gauge',
+		'pageslide-directive',
+		'angAccordion',
 	]);
 
 })();

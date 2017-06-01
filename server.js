@@ -29,6 +29,18 @@ var apiProxy = httpProxy.createProxyServer(proxyOptions);
      apiProxy.web(req, res, {target: apiForwardingUrl+req.params.depId});
  });
 
+ // Check image status
+ app.get("/checkimagestatus", function (req, res) {
+    console.log("Request made to /checkimagestatus/");
+    console.log(req.query.url);
+    apiProxy.web(req, res, { target: req.query.url }, function (e) {
+        console.log(e);
+    });
+ })
+
+ apiProxy.on('error', function(e) {
+   console.log(e);
+ });
 
  /* serves all the static files */
  app.get(/^(.+)$/, function(req, res){
