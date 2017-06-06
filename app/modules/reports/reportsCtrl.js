@@ -123,7 +123,7 @@
 									// if (res[i].data[x].photoUrl) {
 									// 	var isImageResult = true
 									// 	console.log(res[i].data[x].displayName);
-									// 	ReportsService.isImage(res[i].data[x].photoUrl).then(function(result) {
+										// ReportsService.isImage(res[i].data[x].photoUrl).then(function(result) {
 									// 			console.log('isImage: ');
 									// 			console.log(result);
 						      //       isImageResult = result;

@@ -24,6 +24,7 @@
 		'angularjs-gauge',
 		'pageslide-directive',
 		'angAccordion',
+		'dcbImgFallback'
 	]);
 
 })();

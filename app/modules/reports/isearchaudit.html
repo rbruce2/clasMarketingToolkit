@@ -100,7 +100,7 @@
 
               <div flex="70" class="">
                 <div class="userResult" ng-repeat="user in vm.isearch_results | filter: {audit_score: score} track by $index" ng-click="vm.togglePageslide($index)">
-                  <img ng-src="{{user.photoUrl}}" alt="">
+                  <img ng-src="{{user.photoUrl}}" fallback-src="/app/assets/images/imgFallback.png" alt="">
                   <p>
                     <strong>{{user.displayName}}</strong>
                     <span class="resultPriDep">{{user.primaryDepartment}}
@@ -115,7 +115,7 @@
                 <md-subheader style="background-color:#ffffff;">
                 <div class="overallResults">
                   <p class="overallTitle">Overall Score</p>
-                  <p style="color:#ffffff;padding-bottom:12px;"><ng-gauge size="200" type="full" thick="7" used="vm.overall_total | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge></p>
+                  <p style="color:#ffffff;padding-bottom:14px;padding-top:14px;"><ng-gauge size="200" type="full" thick="7" used="vm.overall_total | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge></p>
                 </div>
 
                 <div class="">
@@ -141,7 +141,7 @@
 <div pageslide ps-open="vm.checked" ps-size="33%">
     <div style="padding:20px" id="demo-right">
       <div class="detailsHeaderInfo">
-        <img src="{{vm.UserSlider.photoUrl}}" alt="">
+        <img ng-src="vm.UserSlider.photoUrl" fallback-src="/app/assets/images/imgFallback.png" alt="">
         <div class="dhiLeft">
           <h2>{{vm.UserSlider.displayName}}</h2>
           <p>{{vm.UserSlider.primaryDepartment}}</p>

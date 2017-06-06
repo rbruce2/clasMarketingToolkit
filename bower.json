@@ -24,7 +24,8 @@
     "angular-ui-router": "0.3.2",
     "angularjs-gauge": "^1.4.0",
     "angular-pageslide-directive": "angular-ng-pageslide#^0.1.6",
-    "ang-accordion": "*"
+    "ang-accordion": "*",
+    "angular-img-fallback": "^0.2.0"
   },
   "resolutions": {
     "angular": ">=1.3.*"
