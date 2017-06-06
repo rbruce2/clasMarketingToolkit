@@ -28,6 +28,6 @@
     "angular-img-fallback": "^0.2.0"
   },
   "resolutions": {
-    "angular": ">=1.3.*"
+    "angular": "^1.6.4"
   }
 }
