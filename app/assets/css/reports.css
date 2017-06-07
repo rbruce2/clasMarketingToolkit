@@ -242,3 +242,14 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 .collapsible-item .title:hover{
   background-color: #d6d6d6;
 }
+
+/*filter buttons*/
+.filterBtn {
+  background-color: whitesmoke !important;
+  padding: 20px;
+  height: 16px;
+}
+
+.filterBtn:hover {
+
+}

@@ -94,12 +94,15 @@
         <!-- isearch Report -->
         <md-card-content class="fade" ng-if="!vm.loading() && vm.reportDone">
             <br>
-            <h2 class="text-center">iSearch Profile Audit Report</h2><span class="floatRightTop blueBtn ng-scope"><a href="#!/reports/isearchaudit">Back</a></span><br>
-
+            <h2 class="text-center">iSearch Profile Audit Report</h2>
+            <span class="floatRightTop blueBtn ng-scope">
+              <a href="#!/reports/isearchaudit">Back</a>
+            </span>
+            <br>
             <div class="reportResults" layout="row">
 
               <div flex="70" class="">
-                <div class="userResult" ng-repeat="user in vm.isearch_results | filter: vm.lessThan('audit_score', vm.scoreFilter) track by $index" ng-click="vm.togglePageslide($index)">
+                <div class="userResult" ng-repeat="user in vm.isearch_results | filter: vm.lessThan('audit_score', vm.scoreFilter) track by $index" ng-click="vm.togglePageslide(user.idxIdentifier)" >
                   <img ng-src="{{user.photoUrl}}" fallback-src="/app/assets/images/imgFallback.png" alt="">
                   <p>
                     <strong>{{user.displayName}}</strong>
@@ -119,15 +122,19 @@
                 </div>
 
                 <div class="">
-                  <p><strong>Filter:</strong></p>
+                  <br>
+                  <p><strong>Filter by score:</strong></p>
                   <p>
-                    <input type="text" ng-model="vm.scoreFilter">
+                    <md-slider flex class="md-primary" md-discrete ng-model="vm.scoreFilter" step="1" min="0" max="100" aria-label="overall score"></md-slider>
                     <br>
-                    <a ng-click="vm.scoreFilter = 75">less than 75%</a>
+                    <div ng-click="vm.scoreFilter = 75" class="text-center filterBtn" >Completeness less than 75%</div>
                     <br>
-                    <a ng-click="vm.scoreFilter = 60">less than 60%</a>
+                    <div ng-click="vm.scoreFilter = 60" class="text-center filterBtn">Completeness less than 60%</div>
                     <br>
-                    <a ng-click="vm.scoreFilter = 50">less than 50%</a>
+                    <div ng-click="vm.scoreFilter = 50" class="text-center filterBtn">Completeness less than 50%</div>
+                    <br>
+
+
                   </p>
                 </div>
                 </md-subheader>

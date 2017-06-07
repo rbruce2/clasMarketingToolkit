@@ -88,12 +88,17 @@
 					console.log(res);
 
 						// run tests in response results
+						var userCount = 0
 						for (var i = 0; i < res.length; i++) {
 
 							for (var x = 0; x < res[i].data.length; x++) {
 
 									var pass = 15;
 									var totalScore = 0;
+
+									//setup index identifier for filter
+									res[i].data[x].idxIdentifier = userCount;
+									userCount++
 
 									// Phone Number (1pt)
 									if (!res[i].data[x].phone) {
@@ -376,6 +381,24 @@
 					if(user[prop] < val) return true;
 				}
 			};
+
+			//print report contents
+			vm.printDiv = function(divName) {
+			  var printContents = document.getElementById(divName).innerHTML;
+			  var popupWin = window.open('', '_blank', 'width=300,height=300');
+			  popupWin.document.open();
+			  popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
+			  popupWin.document.close();
+			}
+
+			var originatorEv;
+
+	    this.menuHref = "http://www.google.com/design/spec/components/menus.html#menus-specs";
+
+	    this.openMenu = function($mdMenu, ev) {
+	      originatorEv = ev;
+	      $mdMenu.open(ev);
+	    };
 
 		} //end ReportsCtrl function
 
