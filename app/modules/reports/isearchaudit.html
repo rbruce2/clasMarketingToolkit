@@ -99,7 +99,7 @@
             <div class="reportResults" layout="row">
 
               <div flex="70" class="">
-                <div class="userResult" ng-repeat="user in vm.isearch_results | filter: {audit_score: score} track by $index" ng-click="vm.togglePageslide($index)">
+                <div class="userResult" ng-repeat="user in vm.isearch_results | filter: vm.lessThan('audit_score', vm.scoreFilter) track by $index" ng-click="vm.togglePageslide($index)">
                   <img ng-src="{{user.photoUrl}}" fallback-src="/app/assets/images/imgFallback.png" alt="">
                   <p>
                     <strong>{{user.displayName}}</strong>
@@ -121,7 +121,13 @@
                 <div class="">
                   <p><strong>Filter:</strong></p>
                   <p>
-                    <input type="text" ng-model="score">
+                    <input type="text" ng-model="vm.scoreFilter">
+                    <br>
+                    <a ng-click="vm.scoreFilter = 75">less than 75%</a>
+                    <br>
+                    <a ng-click="vm.scoreFilter = 60">less than 60%</a>
+                    <br>
+                    <a ng-click="vm.scoreFilter = 50">less than 50%</a>
                   </p>
                 </div>
                 </md-subheader>
@@ -141,7 +147,7 @@
 <div pageslide ps-open="vm.checked" ps-size="33%">
     <div style="padding:20px" id="demo-right">
       <div class="detailsHeaderInfo">
-        <img ng-src="vm.UserSlider.photoUrl" fallback-src="/app/assets/images/imgFallback.png" alt="">
+        <img ng-src="{{vm.UserSlider.photoUrl}}" fallback-src="/app/assets/images/imgFallback.png" alt="">
         <div class="dhiLeft">
           <h2>{{vm.UserSlider.displayName}}</h2>
           <p>{{vm.UserSlider.primaryDepartment}}</p>

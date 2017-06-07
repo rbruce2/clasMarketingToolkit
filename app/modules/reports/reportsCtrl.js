@@ -368,11 +368,12 @@
       }
 
 
-			// isearch Audit Filter
-			vm.filterScore = function(prop, val) {
+			// isearch Audit Filter (less than)
+			vm.scoreFilter = 100
+			vm.lessThan = function(prop, val) {
 				console.log('filter ran');
 				return function(user) {
-					if(item[prop] > val) return true;
+					if(user[prop] < val) return true;
 				}
 			};
 
