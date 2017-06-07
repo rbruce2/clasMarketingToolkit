@@ -376,18 +376,17 @@
 			// isearch Audit Filter (less than)
 			vm.scoreFilter = 100
 			vm.lessThan = function(prop, val) {
-				console.log('filter ran');
 				return function(user) {
 					if(user[prop] < val) return true;
 				}
 			};
 
 			//print report contents
-			vm.printDiv = function(divName) {
-			  var printContents = document.getElementById(divName).innerHTML;
-			  var popupWin = window.open('', '_blank', 'width=300,height=300');
+			vm.printDiv = function() {
+			  var printContents = document.getElementById('reportResults').innerHTML;
+			  var popupWin = window.open('', '_blank', 'width=800,height=600');
 			  popupWin.document.open();
-			  popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
+			  popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="/app/assets/css/reports.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
 			  popupWin.document.close();
 			}
 

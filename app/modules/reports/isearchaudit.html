@@ -101,7 +101,7 @@
             <br>
             <div class="reportResults" layout="row">
 
-              <div flex="70" class="">
+              <div flex="70" class="" id="reportResults">
                 <div class="userResult" ng-repeat="user in vm.isearch_results | filter: vm.lessThan('audit_score', vm.scoreFilter) track by $index" ng-click="vm.togglePageslide(user.idxIdentifier)" >
                   <img ng-src="{{user.photoUrl}}" fallback-src="/app/assets/images/imgFallback.png" alt="">
                   <p>
@@ -133,7 +133,17 @@
                     <br>
                     <div ng-click="vm.scoreFilter = 50" class="text-center filterBtn">Completeness less than 50%</div>
                     <br>
-
+                    <md-menu>
+                      <md-button class="md-primary floatRight" ng-click="$mdMenu.open($event)">Report Options</md-button>
+                      <md-menu-content width="2">
+                        <md-menu-item>
+                          <md-button ng-click="vm.printDiv(reportResults)">
+                            <i class="fa fa-print"></i>
+                             Print
+                          </md-button>
+                        </md-menu-item>
+                      </md-menu-content>
+                    </md-menu>
 
                   </p>
                 </div>
