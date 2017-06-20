@@ -27,11 +27,9 @@
 			var clasDepTree = {};
 			vm.ranReport = false;
 			vm.reportDone = false;
-
+			var overallScores = [];
 			// loading text/gif
-			vm.loading = function () {
-				return !!$http.pendingRequests.length;
-			}
+			vm.loading = false;
 
 
 			// load depTree.json file
@@ -42,27 +40,13 @@
 					console.log(res_err);
 			});
 
-			// var testUrl = 'https://webapp4.asu.edu/photo-ws/directory_photo/2304281'
-			// var testUrl = 'https://webapp4.asu.edu/photo-ws/directory_photo/1048162'
-			// ReportsService.checkImageStatus(testUrl, function (res) {
-			// 	console.log('succes pic');
-			// 	console.log(res.status);
-			// 	console.log(res);
-			// },
-			// function (err_res) {
-			// 	console.log('fail pic');
-			// 	console.log(err_res.status);
-			// 	console.log(err_res);
-			// })
-
-
-			vm.runProfileAudit = function () {
+			vm.startProfileAudit = function () {
 
 				var depIdsToApi = [];
-				vm.isearch_results = [];
-				var overallScores = [];
+				vm.isearch_results = []
 				$rootScope.load_notes = 0;
 				vm.ranReport = true;
+				vm.loading = true;
 
 				//build depIdsToApi array
 				if (vm.department == 1409) {
@@ -70,239 +54,241 @@
 
 				}
 				else {
-
 					if (clasDepTree.children[vm.department].children) {
-
 						for (var i = 0; i < clasDepTree.children[vm.department].children.length; i++) {
 							depIdsToApi.push(clasDepTree.children[vm.department].children[i].dept_nid);
 						}
-
 					}
-
 					depIdsToApi.push(clasDepTree.children[vm.department].dept_nid);
-
 				}
 
 				ReportsService.getDepInfo(depIdsToApi).then(function(res) {
-
 					console.log(res);
-
-						// run tests in response results
-						var userCount = 0
-						for (var i = 0; i < res.length; i++) {
-
-							for (var x = 0; x < res[i].data.length; x++) {
-
-									var pass = 15;
-									var totalScore = 0;
-
-									//setup index identifier for filter
-									res[i].data[x].idxIdentifier = userCount;
-									userCount++
-
-									// Phone Number (1pt)
-									if (!res[i].data[x].phone) {
-										res[i].data[x].audit_phone = 'fail';
-										pass--;
-									}
-
-									// Photo (1pt)
-									if (!res[i].data[x].photoUrl) {
-										res[i].data[x].audit_photoUrl = 'fail';
-										pass--;
-									}
-
-									// if (res[i].data[x].photoUrl) {
-									// 	ReportsService.checkImageStatus(res[i].data[x].photoUrl, function (res) {
-									// 		console.log('succes pic');
-									// 		console.log(res.status);
-									// 		console.log(res);
-									// 	},
-									// 	function (err_res) {
-									// 		console.log('fail pic');
-									// 		console.log(err_res.status);
-									// 		console.log(err_res);
-									// 	})
-									// }
-
-									// if (res[i].data[x].photoUrl) {
-									// 	var isImageResult = true
-									// 	console.log(res[i].data[x].displayName);
-										// ReportsService.isImage(res[i].data[x].photoUrl).then(function(result) {
-									// 			console.log('isImage: ');
-									// 			console.log(result);
-						      //       isImageResult = result;
-						      //   });
-									// 	res[i].data[x].audit_photoUrl = isImageResult
-									// }
-
-									// if (res[i].data[x].photoUrl) {
-									// 	console.log($http.get(res[i].data[x].photoUrl));
-									// }
-
-
-									// Email address (1pt)
-									if (!res[i].data[x].emailAddress) {
-										res[i].data[x].audit_email = 'fail';
-										pass--;
-									}
-
-									// Affiliation title (1pt)
-									if (!res[i].data[x].primaryDepartment) {
-										res[i].data[x].audit_affiliationTitle = 'fail';
-										pass--;
-									}
-
-									// Unit name (1pt)
-									if (!res[i].data[x].primaryiSearchDepartmentAffiliation) {
-										res[i].data[x].audit_unitName = 'fail';
-										pass--;
-									}
-
-									// expertiseAreas (1pt)
-									if (!res[i].data[x].expertiseAreas) {
-										res[i].data[x].audit_expertiseAreas = 'fail';
-										console.log('no expertise areas');
-										pass--;
-									}else if (res[i].data[x].expertiseAreas.length <= 1) {
-										console.log('need more than 1 expertise area');
-										res[i].data[x].audit_expertiseAreas_length = 'shoud have more than one expertise area';
-										pass--;
-									}
-
-									// Employee category (1pt)
-									if (!res[i].data[x].primarySimplifiedEmplClass) {
-										res[i].data[x].audit_emplCat = 'fail';
-										pass--;
-									}
-
-									// Campus location (1pt)
-									if (!res[i].data[x].primaryJobCampus) {
-										res[i].data[x].audit_campus = 'fail';
-										pass--;
-									}
-
-									// Mailcode (1pt)
-									if (!res[i].data[x].primaryMailCode) {
-										res[i].data[x].audit_mailCode = 'fail';
-										pass--;
-									}
-
-									// Bio (word limit: 100min 300max) (3rd person) (no primary affiliations) (3pt)
-									if (!res[i].data[x].bio) {
-										res[i].data[x].audit_bio = 'No bio found';
-										pass = pass - 3
-									}
-
-									else if (res[i].data[x].bio) {
-										var words = res[i].data[x].bio.split(' ')
-										var wordCount = res[i].data[x].bio.split(' ').length
-
-										// min bio word limit
-										if (wordCount < 100) {
-											console.log('Bio must be at least 100 words in length');
-											res[i].data[x].audit_bio_min = 'Bio must be at least 100 words in length'
-											pass--;
-										}
-
-										// max bio word limit
-										if (wordCount > 300) {
-											console.log('Bio must be less than 300 words in length');
-											res[i].data[x].audit_bio_max = 'Bio must be less than 300 words in length'
-											pass--;
-										}
-
-										// check if written in first person
-										var count = 0
-										for (var w = 0; w < words.length; w++) {
-											if ( words[w] == 'I' || words[w] == 'me' || words[w] == 'my' ) {
-												// console.log(words[w]);
-												count++
-											}
-											if (count > 1) {
-												res[i].data[x].audit_bio_1stPerson_warning = 'fail'
-												pass--;
-												break
-											}
-										}
-									}
-
-									// Short Bio (word limit: 40max) (3rd person) (no full name just last) (3pt)
-									if (!res[i].data[x].shortBio) {
-										res[i].data[x].audit_shortBio = 'No shortBio found';
-										pass = pass - 3
-									}
-
-									else if (res[i].data[x].shortBio) {
-										var words = res[i].data[x].shortBio.split(' ')
-										var wordCount = res[i].data[x].shortBio.split(' ').length
-
-										// max shortBio word limit
-										if (wordCount > 40) {
-											console.log('Short Bio must be less than 40 words in length');
-											res[i].data[x].audit_shortBio_max = 'Bio must be less than 40 words in length'
-											pass--;
-										}
-
-										// check if written in first person and if first name is used
-										var pronounCount = 0
-										var firstNameCount = 0
-										for (var w = 0; w < words.length; w++) {
-											if ( words[w] == 'I' || words[w] == 'me' || words[w] == 'my' ) {
-												console.log(words[w]);
-												pronounCount++
-											}
-											else if ( words[w] == res[i].data[x].firstName ) {
-												console.log(words[w]);
-												firstNameCount++
-											}
-											if (pronounCount >= 1 && firstNameCount >= 1) {
-												console.log('first person and first name fail');
-												res[i].data[x].audit_shortBio_1stPerson_warning = 'fail'
-												res[i].data[x].audit_shortBio_firstName = 'fail'
-												pass = pass - 2;
-												break
-											}
-											if (pronounCount >= 1 && w + 1 == words.length) {
-												console.log('third person fail');
-												res[i].data[x].audit_shortBio_1stPerson_warning = 'fail'
-												pass--
-											}
-											if (firstNameCount >= 1 && w + 1 == words.length) {
-												console.log('first name fail');
-												res[i].data[x].audit_shortBio_firstName = 'fail'
-												pass--
-											}
-										}
-									}
-
-
-									// Education
-									// if (!res[i].data[x].education) {
-									// 	res[i].data[x].audit_education = 'fail';
-									// 	pass--;
-									// }
-
-
-
-									totalScore = pass/15 * 100;
-
-									res[i].data[x].audit_score = totalScore;
-									vm.isearch_results.push(res[i].data[x]);
-									overallScores.push(totalScore);
-
-							}
+					for (var i = 0; i < res.length; i++) {
+						for (var x = 0; x < res[i].data.length; x++) {
+								vm.isearch_results.push(res[i].data[x]);
+								// overallScores.push(totalScore);
 						}
+					}
 
-						vm.reportDone = true;
-						vm.overall_total = calculateAverage(overallScores);
+					return checkImageExists(vm.isearch_results)
 
 					}, function(res_err) {
-						console.log('error');
-						console.log(res_err);
-					});
+						console.log('error')
+						console.log(res_err)
+					})
 
-			}; //end runProfileAudit
+			}; //end startProfileAudit
+
+
+			// run picture test
+			vm.pictureStatusArray = []
+			function checkImageExists(result) {
+				console.log(result);
+			  var imgUrls = []
+				for (var i = 0; i < vm.isearch_results.length; i++) {
+					console.log(vm.isearch_results[i].photoUrl)
+					imgUrls.push(vm.isearch_results[i].photoUrl)
+				}
+				ReportsService.isImage(imgUrls).then(function(res) {
+					console.log(res);
+					vm.pictureStatusArray = res
+				}).then(function(res) {
+					return testAllProfiles(res)
+				})
+			}
+
+
+			// run tests
+			function testAllProfiles() {
+				console.log(vm.pictureStatusArray);
+				console.log(vm.isearch_results);
+
+				//run all tests
+				for (var i = 0; i < vm.isearch_results.length; i++) {
+
+					// merge pictureStatusArray results to isearch_results
+					vm.isearch_results[i].audit_photoUrlStatus = vm.pictureStatusArray[i]
+
+					//setup index identifier for filter
+					vm.isearch_results[i].idxIdentifier = i
+
+					var pass = 15;
+					var totalScore = 0;
+
+					// Phone Number (1pt)
+					if (!vm.isearch_results[i].phone) {
+						vm.isearch_results[i].audit_phone = 'fail';
+						pass--;
+					}
+
+					// Photo (1pt)
+					if (!vm.isearch_results[i].photoUrl) {
+						vm.isearch_results[i].audit_photoUrl = 'fail';
+						pass--;
+					}
+
+					if (vm.isearch_results[i].audit_photoUrlStatus === false) {
+						vm.isearch_results[i].audit_photoUrl = 'fail'
+						pass--;
+					}
+
+					// Email address (1pt)
+					if (!vm.isearch_results[i].emailAddress) {
+						vm.isearch_results[i].audit_email = 'fail';
+						pass--;
+					}
+
+					// Affiliation title (1pt)
+					if (!vm.isearch_results[i].primaryDepartment) {
+						vm.isearch_results[i].audit_affiliationTitle = 'fail';
+						pass--;
+					}
+
+					// Unit name (1pt)
+					if (!vm.isearch_results[i].primaryiSearchDepartmentAffiliation) {
+						vm.isearch_results[i].audit_unitName = 'fail';
+						pass--;
+					}
+
+					// expertiseAreas (1pt)
+					if (!vm.isearch_results[i].expertiseAreas) {
+						vm.isearch_results[i].audit_expertiseAreas = 'fail';
+						console.log('no expertise areas');
+						pass--;
+					}else if (vm.isearch_results[i].expertiseAreas.length <= 1) {
+						console.log('need more than 1 expertise area');
+						vm.isearch_results[i].audit_expertiseAreas_length = 'shoud have more than one expertise area';
+						pass--;
+					}
+
+					// Employee category (1pt)
+					if (!vm.isearch_results[i].primarySimplifiedEmplClass) {
+						vm.isearch_results[i].audit_emplCat = 'fail';
+						pass--;
+					}
+
+					// Campus location (1pt)
+					if (!vm.isearch_results[i].primaryJobCampus) {
+						vm.isearch_results[i].audit_campus = 'fail';
+						pass--;
+					}
+
+					// Mailcode (1pt)
+					if (!vm.isearch_results[i].primaryMailCode) {
+						vm.isearch_results[i].audit_mailCode = 'fail';
+						pass--;
+					}
+
+					// Bio (word limit: 100min 300max) (3rd person) (no primary affiliations) (3pt)
+					if (!vm.isearch_results[i].bio) {
+						vm.isearch_results[i].audit_bio = 'No bio found';
+						pass = pass - 3
+					}
+
+					else if (vm.isearch_results[i].bio) {
+						var words = vm.isearch_results[i].bio.split(' ')
+						var wordCount = vm.isearch_results[i].bio.split(' ').length
+
+						// min bio word limit
+						if (wordCount < 100) {
+							console.log('Bio must be at least 100 words in length');
+							vm.isearch_results[i].audit_bio_min = 'Bio must be at least 100 words in length'
+							pass--;
+						}
+
+						// max bio word limit
+						if (wordCount > 300) {
+							console.log('Bio must be less than 300 words in length');
+							vm.isearch_results[i].audit_bio_max = 'Bio must be less than 300 words in length'
+							pass--;
+						}
+
+						// check if written in first person
+						var count = 0
+						for (var w = 0; w < words.length; w++) {
+							if ( words[w] == 'I' || words[w] == 'me' || words[w] == 'my' ) {
+								// console.log(words[w]);
+								count++
+							}
+							if (count > 1) {
+								vm.isearch_results[i].audit_bio_1stPerson_warning = 'fail'
+								pass--;
+								break
+							}
+						}
+					}
+
+					// Short Bio (word limit: 40max) (3rd person) (no full name just last) (3pt)
+					if (!vm.isearch_results[i].shortBio) {
+						vm.isearch_results[i].audit_shortBio = 'No shortBio found';
+						pass = pass - 3
+					}
+
+					else if (vm.isearch_results[i].shortBio) {
+						var words = vm.isearch_results[i].shortBio.split(' ')
+						var wordCount = vm.isearch_results[i].shortBio.split(' ').length
+
+						// max shortBio word limit
+						if (wordCount > 40) {
+							console.log('Short Bio must be less than 40 words in length');
+							vm.isearch_results[i].audit_shortBio_max = 'Bio must be less than 40 words in length'
+							pass--;
+						}
+
+						// check if written in first person and if first name is used
+						var pronounCount = 0
+						var firstNameCount = 0
+						for (var w = 0; w < words.length; w++) {
+							if ( words[w] == 'I' || words[w] == 'me' || words[w] == 'my' ) {
+								console.log(words[w]);
+								pronounCount++
+							}
+							else if ( words[w] == vm.isearch_results[i].firstName ) {
+								console.log(words[w]);
+								firstNameCount++
+							}
+							if (pronounCount >= 1 && firstNameCount >= 1) {
+								console.log('first person and first name fail');
+								vm.isearch_results[i].audit_shortBio_1stPerson_warning = 'fail'
+								vm.isearch_results[i].audit_shortBio_firstName = 'fail'
+								pass = pass - 2;
+								break
+							}
+							if (pronounCount >= 1 && w + 1 == words.length) {
+								console.log('third person fail');
+								vm.isearch_results[i].audit_shortBio_1stPerson_warning = 'fail'
+								pass--
+							}
+							if (firstNameCount >= 1 && w + 1 == words.length) {
+								console.log('first name fail');
+								vm.isearch_results[i].audit_shortBio_firstName = 'fail'
+								pass--
+							}
+						}
+					}
+
+
+					// Education
+					// if (!vm.isearch_results[i].education) {
+					// 	vm.isearch_results[i].audit_education = 'fail';
+					// 	pass--;
+					// }
+
+
+					totalScore = pass/15 * 100;
+
+					vm.isearch_results[i].audit_score = totalScore;
+					overallScores.push(totalScore);
+
+				}
+
+				vm.overall_total = calculateAverage(overallScores);
+				vm.reportDone = true;
+				vm.loading = false;
+
+
+			}//end testAllProfiles
 
 
 			// user details slideout vars
@@ -403,16 +389,11 @@
 
 		// helper functions
 		function calculateAverage(scores) {
-
 			var total = 0;
-
 			for (var i = 0; i < scores.length; i++) {
 				total+=scores[i];
 			}
-
-
 			return total/scores.length;
-
 		}
 
 })();

@@ -41,19 +41,29 @@
 				checkImageStatus: function (url, success, error) {
 					$http.get('checkimagestatus?url=' + url).then(success, error)
 				},
-				isImage: function (src) {
-						var deferred = $q.defer();
+				isImage: function (photoUrls) {
+						var promises = []
 
-            var image = new Image();
-            image.onerror = function() {
-                deferred.resolve(false);
-            };
-            image.onload = function() {
-                deferred.resolve(true);
-            };
-            image.src = src;
+						angular.forEach(photoUrls, function(photoUrl) {
+							var deferred = $q.defer();
 
-            return deferred.promise;
+	            var image = new Image();
+	            image.onerror = function() {
+	                deferred.resolve(false);
+	            };
+	            image.onload = function() {
+	                deferred.resolve(true);
+	            };
+	            image.src = photoUrl;
+
+							var promise =  deferred.promise;
+							promises.push(promise);
+
+						})
+
+						var photoUrlStatus = $q.all(promises)
+						return photoUrlStatus
+
 				}
 			};
 

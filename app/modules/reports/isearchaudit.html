@@ -71,7 +71,7 @@
             </div>
 
             <div class="text-center" style="padding-top:25px;">
-              <span class="blueBtn"><a href="#!/reports/isearchaudit" ng-click="vm.runProfileAudit()">Run</a></span>
+              <span class="blueBtn"><a href="#!/reports/isearchaudit" ng-click="vm.startProfileAudit()">Run</a></span>
             </div>
 
         </md-card-content>
@@ -83,8 +83,8 @@
 <div class="md-padding" flex layout-sm="column">
     <md-card class="">
         <!-- loader -->
-        <!-- <md-progress-linear md-mode="indeterminate" ng-if="vm.loading()"></md-progress-linear> -->
-        <md-card-content id="loading" ng-if="vm.loading()" class="text-center">
+        <!-- <md-progress-linear md-mode="indeterminate" ng-if="vm.loading"></md-progress-linear> -->
+        <md-card-content id="loading" ng-if="vm.loading" class="text-center">
           <!-- loading...{{load_notes}} -->
           <h2 class="text-center" style="margin-bottom:0px;">Generating iSearch Audit Report</h2><br>
           <img src="/app/assets/images/searchReportnodither.gif" alt="" style="width:400px;">
@@ -92,7 +92,7 @@
         </md-card-content>
 
         <!-- isearch Report -->
-        <md-card-content class="fade" ng-if="!vm.loading() && vm.reportDone">
+        <md-card-content class="fade" ng-if="!vm.loading && vm.reportDone">
             <br>
             <h2 class="text-center">iSearch Profile Audit Report</h2>
             <span class="floatRightTop blueBtn ng-scope">
