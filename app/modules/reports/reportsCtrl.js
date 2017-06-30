@@ -13,7 +13,7 @@
 		.module('reports')
 		.controller('ReportsCtrl', Reports);
 
-		Reports.$inject = ['ReportsService', '$rootScope', '$http', '$mdSidenav'];
+		Reports.$inject = ['ReportsService', '$rootScope', '$http', '$mdSidenav', '$mdDialog'];
 
 		/*
 		* recommend
@@ -21,21 +21,29 @@
 		* and bindable members up top.
 		*/
 
-		function Reports(ReportsService, $rootScope, $http, $mdSidenav) {
+		function Reports(ReportsService, $rootScope, $http, $mdSidenav, $mdDialog) {
 			/*jshint validthis: true */
 			var vm = this;
 			var clasDepTree = {};
 			vm.ranReport = false;
 			vm.reportDone = false;
+			vm.showOverallDetails = false;
 			var overallScores = [];
+			var overallPhotoFail = 0;
+			var overallPhoneFail = 0;
+			var overallEmailFail = 0;
+			var overallBioFail = 0;
+			var overallPrimDepFail = 0;
+			var overallShortBioFail = 0;
 			// loading text/gif
 			vm.loading = false;
+			vm.reworkDirectory = 0;
 
 
 			// load depTree.json file
 			ReportsService.getDepTree(function(res) {
 					console.log(res);
-					clasDepTree = res.data[0].children[15].children[16];
+					clasDepTree = res.data[0].children[15].children[15];
 			}, function(res_err) {
 					console.log(res_err);
 			});
@@ -47,6 +55,15 @@
 				$rootScope.load_notes = 0;
 				vm.ranReport = true;
 				vm.loading = true;
+
+				//set current report title
+				if (vm.department == 1409) {
+					vm.currentReportTitle = 'CLAS Deans Office'
+				}
+				else {
+					vm.currentReportTitle = clasDepTree.children[vm.department].name;
+				}
+
 
 				//build depIdsToApi array
 				if (vm.department == 1409) {
@@ -107,185 +124,218 @@
 				//run all tests
 				for (var i = 0; i < vm.isearch_results.length; i++) {
 
-					// merge pictureStatusArray results to isearch_results
-					vm.isearch_results[i].audit_photoUrlStatus = vm.pictureStatusArray[i]
+					//exclude student workers from test result calculations
+					if (vm.isearch_results[i].emplClasses[0] !== 'Student Worker') {
 
-					//setup index identifier for filter
-					vm.isearch_results[i].idxIdentifier = i
+						// merge pictureStatusArray results to isearch_results
+						vm.isearch_results[i].audit_photoUrlStatus = vm.pictureStatusArray[i]
 
-					var pass = 15;
-					var totalScore = 0;
+						//setup index identifier for filter
+						vm.isearch_results[i].idxIdentifier = i
 
-					// Phone Number (1pt)
-					if (!vm.isearch_results[i].phone) {
-						vm.isearch_results[i].audit_phone = 'fail';
-						pass--;
-					}
 
-					// Photo (1pt)
-					if (!vm.isearch_results[i].photoUrl) {
-						vm.isearch_results[i].audit_photoUrl = 'fail';
-						pass--;
-					}
+						var pass = 16;
+						var totalScore = 0;
 
-					if (vm.isearch_results[i].audit_photoUrlStatus === false) {
-						vm.isearch_results[i].audit_photoUrl = 'fail'
-						pass--;
-					}
-
-					// Email address (1pt)
-					if (!vm.isearch_results[i].emailAddress) {
-						vm.isearch_results[i].audit_email = 'fail';
-						pass--;
-					}
-
-					// Affiliation title (1pt)
-					if (!vm.isearch_results[i].primaryDepartment) {
-						vm.isearch_results[i].audit_affiliationTitle = 'fail';
-						pass--;
-					}
-
-					// Unit name (1pt)
-					if (!vm.isearch_results[i].primaryiSearchDepartmentAffiliation) {
-						vm.isearch_results[i].audit_unitName = 'fail';
-						pass--;
-					}
-
-					// expertiseAreas (1pt)
-					if (!vm.isearch_results[i].expertiseAreas) {
-						vm.isearch_results[i].audit_expertiseAreas = 'fail';
-						console.log('no expertise areas');
-						pass--;
-					}else if (vm.isearch_results[i].expertiseAreas.length <= 1) {
-						console.log('need more than 1 expertise area');
-						vm.isearch_results[i].audit_expertiseAreas_length = 'shoud have more than one expertise area';
-						pass--;
-					}
-
-					// Employee category (1pt)
-					if (!vm.isearch_results[i].primarySimplifiedEmplClass) {
-						vm.isearch_results[i].audit_emplCat = 'fail';
-						pass--;
-					}
-
-					// Campus location (1pt)
-					if (!vm.isearch_results[i].primaryJobCampus) {
-						vm.isearch_results[i].audit_campus = 'fail';
-						pass--;
-					}
-
-					// Mailcode (1pt)
-					if (!vm.isearch_results[i].primaryMailCode) {
-						vm.isearch_results[i].audit_mailCode = 'fail';
-						pass--;
-					}
-
-					// Bio (word limit: 100min 300max) (3rd person) (no primary affiliations) (3pt)
-					if (!vm.isearch_results[i].bio) {
-						vm.isearch_results[i].audit_bio = 'No bio found';
-						pass = pass - 3
-					}
-
-					else if (vm.isearch_results[i].bio) {
-						var words = vm.isearch_results[i].bio.split(' ')
-						var wordCount = vm.isearch_results[i].bio.split(' ').length
-
-						// min bio word limit
-						if (wordCount < 100) {
-							console.log('Bio must be at least 100 words in length');
-							vm.isearch_results[i].audit_bio_min = 'Bio must be at least 100 words in length'
+						// Phone Number (1pt)
+						if (!vm.isearch_results[i].phone) {
+							vm.isearch_results[i].audit_phone = 'fail';
+							overallPhoneFail++;
 							pass--;
 						}
 
-						// max bio word limit
-						if (wordCount > 300) {
-							console.log('Bio must be less than 300 words in length');
-							vm.isearch_results[i].audit_bio_max = 'Bio must be less than 300 words in length'
+						// Photo (1pt)
+						if (!vm.isearch_results[i].photoUrl) {
+							vm.isearch_results[i].audit_photoUrl = 'fail';
+							overallPhotoFail++;
 							pass--;
 						}
 
-						// check if written in first person
-						var count = 0
-						for (var w = 0; w < words.length; w++) {
-							if ( words[w] == 'I' || words[w] == 'me' || words[w] == 'my' ) {
-								// console.log(words[w]);
-								count++
-							}
-							if (count > 1) {
-								vm.isearch_results[i].audit_bio_1stPerson_warning = 'fail'
+						if (vm.isearch_results[i].audit_photoUrlStatus === false) {
+							vm.isearch_results[i].audit_photoUrl = 'fail'
+							overallPhotoFail++;
+							pass--;
+						}
+
+						// Email address (1pt)
+						if (!vm.isearch_results[i].emailAddress) {
+							vm.isearch_results[i].audit_email = 'fail';
+							overallEmailFail++;
+							pass--;
+						}
+
+						// Affiliation title (1pt)
+						if (!vm.isearch_results[i].primaryDepartment) {
+							vm.isearch_results[i].audit_affiliationTitle = 'fail';
+							overallPrimDepFail++;
+							pass--;
+						}
+
+						// Titles (1pt)
+						if (vm.isearch_results[i].titles) {
+								var dupCheck = hasDuplicates(vm.isearch_results[i].titles)
+								if (dupCheck === true) {
+									vm.reworkDirectory++;
+									vm.isearch_results[i].audit_dupTitles = 'fail';
+									pass--;
+								}
+						}
+						else {
+								vm.isearch_results[i].audit_titles = 'fail';
 								pass--;
-								break
-							}
 						}
-					}
 
-					// Short Bio (word limit: 40max) (3rd person) (no full name just last) (3pt)
-					if (!vm.isearch_results[i].shortBio) {
-						vm.isearch_results[i].audit_shortBio = 'No shortBio found';
-						pass = pass - 3
-					}
-
-					else if (vm.isearch_results[i].shortBio) {
-						var words = vm.isearch_results[i].shortBio.split(' ')
-						var wordCount = vm.isearch_results[i].shortBio.split(' ').length
-
-						// max shortBio word limit
-						if (wordCount > 40) {
-							console.log('Short Bio must be less than 40 words in length');
-							vm.isearch_results[i].audit_shortBio_max = 'Bio must be less than 40 words in length'
+						// Unit name (1pt)
+						if (!vm.isearch_results[i].primaryiSearchDepartmentAffiliation) {
+							vm.isearch_results[i].audit_unitName = 'fail';
 							pass--;
 						}
 
-						// check if written in first person and if first name is used
-						var pronounCount = 0
-						var firstNameCount = 0
-						for (var w = 0; w < words.length; w++) {
-							if ( words[w] == 'I' || words[w] == 'me' || words[w] == 'my' ) {
-								console.log(words[w]);
-								pronounCount++
-							}
-							else if ( words[w] == vm.isearch_results[i].firstName ) {
-								console.log(words[w]);
-								firstNameCount++
-							}
-							if (pronounCount >= 1 && firstNameCount >= 1) {
-								console.log('first person and first name fail');
-								vm.isearch_results[i].audit_shortBio_1stPerson_warning = 'fail'
-								vm.isearch_results[i].audit_shortBio_firstName = 'fail'
-								pass = pass - 2;
-								break
-							}
-							if (pronounCount >= 1 && w + 1 == words.length) {
-								console.log('third person fail');
-								vm.isearch_results[i].audit_shortBio_1stPerson_warning = 'fail'
-								pass--
-							}
-							if (firstNameCount >= 1 && w + 1 == words.length) {
-								console.log('first name fail');
-								vm.isearch_results[i].audit_shortBio_firstName = 'fail'
-								pass--
+						// expertiseAreas Faculty only (1pt)
+						if (vm.isearch_results[i].primaryEmplClass !== 'University Staff') {
+							if (!vm.isearch_results[i].expertiseAreas) {
+								vm.isearch_results[i].audit_expertiseAreas = 'fail';
+								console.log('no expertise areas');
+								pass--;
+							}else if (vm.isearch_results[i].expertiseAreas.length <= 1) {
+								console.log('need more than 1 expertise area');
+								vm.isearch_results[i].audit_expertiseAreas_length = 'shoud have more than one expertise area';
+								pass--;
 							}
 						}
+
+
+
+						// Employee category (1pt)
+						if (!vm.isearch_results[i].primarySimplifiedEmplClass) {
+							vm.isearch_results[i].audit_emplCat = 'fail';
+							pass--;
+						}
+
+						// Campus location (1pt)
+						if (!vm.isearch_results[i].primaryJobCampus) {
+							vm.isearch_results[i].audit_campus = 'fail';
+							pass--;
+						}
+
+						// Mailcode (1pt)
+						if (!vm.isearch_results[i].primaryMailCode) {
+							vm.isearch_results[i].audit_mailCode = 'fail';
+							pass--;
+						}
+
+						// Bio (word limit: 100min 300max) (3rd person) (no primary affiliations) (3pt)
+						if (!vm.isearch_results[i].bio) {
+							vm.isearch_results[i].audit_bio = 'No bio found';
+							overallBioFail++;
+							pass = pass - 3
+						}
+
+						else if (vm.isearch_results[i].bio) {
+							var words = vm.isearch_results[i].bio.split(' ')
+							var wordCount = vm.isearch_results[i].bio.split(' ').length
+
+							// min bio word limit
+							if (wordCount < 100) {
+								console.log('Bio must be at least 100 words in length');
+								vm.isearch_results[i].audit_bio_min = 'Bio must be at least 100 words in length'
+								pass--;
+							}
+
+							// max bio word limit
+							if (wordCount > 300) {
+								console.log('Bio must be less than 300 words in length');
+								vm.isearch_results[i].audit_bio_max = 'Bio must be less than 300 words in length'
+								pass--;
+							}
+
+							// check if written in first person
+							var count = 0
+							for (var w = 0; w < words.length; w++) {
+								if ( words[w] == 'I' || words[w] == 'me' || words[w] == 'my' ) {
+									// console.log(words[w]);
+									count++
+								}
+								if (count > 1) {
+									vm.isearch_results[i].audit_bio_1stPerson_warning = 'fail'
+									pass--;
+									break
+								}
+							}
+						}
+
+						// Short Bio (word limit: 40max) (3rd person) (no full name just last) (3pt)
+						if (!vm.isearch_results[i].shortBio) {
+							vm.isearch_results[i].audit_shortBio = 'No shortBio found';
+							overallShortBioFail++;
+							pass = pass - 3
+						}
+
+						else if (vm.isearch_results[i].shortBio) {
+							var words = vm.isearch_results[i].shortBio.split(' ')
+							var wordCount = vm.isearch_results[i].shortBio.split(' ').length
+
+							// max shortBio word limit
+							if (wordCount > 40) {
+								console.log('Short Bio must be less than 40 words in length');
+								vm.isearch_results[i].audit_shortBio_max = 'Bio must be less than 40 words in length'
+								pass--;
+							}
+
+							// check if written in first person and if first name is used
+							var pronounCount = 0
+							var firstNameCount = 0
+							for (var w = 0; w < words.length; w++) {
+								if ( words[w] == 'I' || words[w] == 'me' || words[w] == 'my' ) {
+									console.log(words[w]);
+									pronounCount++
+								}
+								else if ( words[w] == vm.isearch_results[i].firstName ) {
+									console.log(words[w]);
+									firstNameCount++
+								}
+								if (pronounCount >= 1 && firstNameCount >= 1) {
+									console.log('first person and first name fail');
+									vm.isearch_results[i].audit_shortBio_1stPerson_warning = 'fail'
+									vm.isearch_results[i].audit_shortBio_firstName = 'fail'
+									pass = pass - 2;
+									break
+								}
+								if (pronounCount >= 1 && w + 1 == words.length) {
+									console.log('third person fail');
+									vm.isearch_results[i].audit_shortBio_1stPerson_warning = 'fail'
+									pass--
+								}
+								if (firstNameCount >= 1 && w + 1 == words.length) {
+									console.log('first name fail');
+									vm.isearch_results[i].audit_shortBio_firstName = 'fail'
+									pass--
+								}
+							}
+						}
+
+
+						totalScore = pass/16 * 100;
+
+						vm.isearch_results[i].audit_score = totalScore;
+						overallScores.push(totalScore);
 					}
-
-
-					// Education
-					// if (!vm.isearch_results[i].education) {
-					// 	vm.isearch_results[i].audit_education = 'fail';
-					// 	pass--;
-					// }
-
-
-					totalScore = pass/15 * 100;
-
-					vm.isearch_results[i].audit_score = totalScore;
-					overallScores.push(totalScore);
-
+					else {
+						console.log(vm.isearch_results[i].displayName + ' is a student worker and was skipped');
+					}
 				}
 
 				vm.overall_total = calculateAverage(overallScores);
+				vm.overall_total_photo = calculateTotalPass(overallPhotoFail ,vm.isearch_results.length)
+				vm.overall_total_phone = calculateTotalPass(overallPhoneFail ,vm.isearch_results.length)
+				vm.overall_total_email = calculateTotalPass(overallEmailFail ,vm.isearch_results.length)
+				vm.overall_total_primDep = calculateTotalPass(overallPrimDepFail ,vm.isearch_results.length)
+				vm.overall_total_bio = calculateTotalPass(overallBioFail ,vm.isearch_results.length)
+				vm.overall_total_shortBio = calculateTotalPass(overallShortBioFail ,vm.isearch_results.length)
 				vm.reportDone = true;
 				vm.loading = false;
+
+
 
 
 			}//end testAllProfiles
@@ -350,20 +400,50 @@
 						vm.UserSlider.audit_shortBio_max = vm.isearch_results[userIndex].audit_shortBio_max
 						vm.UserSlider.audit_shortBio_1stPerson_warning = vm.isearch_results[userIndex].audit_shortBio_1stPerson_warning
 						vm.UserSlider.audit_shortBio_firstName = vm.isearch_results[userIndex].audit_shortBio_firstName
-
-
+						vm.UserSlider.audit_dupTitles = vm.isearch_results[userIndex].audit_dupTitles
+						vm.UserSlider.audit_titles = vm.isearch_results[userIndex].audit_titles
 
 					}
 
           vm.checked = !vm.checked;
       }
 
+			//show directory structure presentation dialog
+			vm.showDirectoryPresentation = function(ev) {
+		    $mdDialog.show({
+		      controller: DialogController,
+		      templateUrl: '/app/modules/reports/dialog1.tmpl.html',
+		      parent: angular.element(document.body),
+		      targetEvent: ev,
+		      clickOutsideToClose:true,
+		      fullscreen: vm.customFullscreen // Only for -xs, -sm breakpoints.
+		    })
+		    .then(function(answer) {
+		      vm.status = 'You said the information was "' + answer + '".';
+		    }, function() {
+		      vm.status = 'You cancelled the dialog.';
+		    });
+		  };
+
+			function DialogController($scope, $mdDialog) {
+		    vm.hide = function() {
+		      $mdDialog.hide();
+		    };
+
+		    $scope.cancel = function() {
+		      $mdDialog.cancel();
+		    };
+
+		    vm.answer = function(answer) {
+		      $mdDialog.hide(answer);
+		    };
+		  }
 
 			// isearch Audit Filter (less than)
 			vm.scoreFilter = 100
 			vm.lessThan = function(prop, val) {
 				return function(user) {
-					if(user[prop] < val) return true;
+					if(user[prop] <= val) return true;
 				}
 			};
 
@@ -385,15 +465,43 @@
 	      $mdMenu.open(ev);
 	    };
 
+			vm.backToiSearchAuditList = function() {
+				vm.ranReport = false;
+				vm.reworkDirectory = 0;
+				vm.currentReportTitle = '';
+				vm.showOverallDetails = false
+				overallScores = []
+				overallPhotoFail = 0
+				overallPhoneFail = 0
+				overallEmailFail = 0
+				overallPrimDepFail = 0
+				overallBioFail = 0
+				overallShortBioFail = 0 
+			}
+
 		} //end ReportsCtrl function
 
 		// helper functions
+		//calculate average of array of values
 		function calculateAverage(scores) {
+			console.log('the avg of ' + scores);
+			console.log('is');
 			var total = 0;
 			for (var i = 0; i < scores.length; i++) {
 				total+=scores[i];
 			}
+			console.log(total/scores.length);
 			return total/scores.length;
+		}
+
+		function calculateTotalPass(failCount, totalUsers) {
+			var passCount = totalUsers - failCount
+			return (passCount/totalUsers) * 100
+		}
+
+		//check if array values are duplicated
+		function hasDuplicates(array) {
+				return (new Set(array)).size !== array.length;
 		}
 
 })();

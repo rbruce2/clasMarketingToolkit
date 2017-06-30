@@ -62,6 +62,9 @@
 		.text-center {
 		    text-align: center!important
 		}
+		h1, h2, h3, h4{
+			font-weight: 400;
+		}
     </style>
 
 </head>
@@ -156,6 +159,7 @@
 
 
 <!-- injector:js -->
+<script src="/src/bower_components/jquery/dist/jquery.js"></script>
 <script src="/src/bower_components/es5-shim/es5-shim.js"></script>
 <script src="/src/bower_components/json3/lib/json3.min.js"></script>
 <script src="/src/bower_components/angular/angular.js"></script>
@@ -173,6 +177,7 @@
 <script src="/src/bower_components/angular-pageslide-directive/build/angular-pageslide-directive.min.js"></script>
 <script src="/src/bower_components/ang-accordion/js/ang-accordion.js"></script>
 <script src="/src/bower_components/angular-img-fallback/angular.dcb-img-fallback.js"></script>
+<script src="/src/bower_components/jquery.facedetection/dist/jquery.facedetection.min.js"></script>
 <script src="/app/app.js"></script>
 <script src="/app/app.config.js"></script>
 <script src="/app/modules/home/homeModule.js"></script>
@@ -189,6 +194,17 @@
 <script src="/app/modules/reports/reportsService.js"></script>
 <!-- endinjector -->
 <script src="/src/bower_components/angular-pageslide-directive/dist/angular-pageslide-directive.min.js"></script>
+
+<script type="text/javascript">
+function checkImgForFace() {
+	console.log($('#picture'));
+	$('#picture').faceDetection({
+			complete: function (faces) {
+					console.log(faces);
+			}
+	});
+}
+</script>
 
 </body>
 </html>

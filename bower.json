@@ -25,7 +25,8 @@
     "angularjs-gauge": "^1.4.0",
     "angular-pageslide-directive": "angular-ng-pageslide#^0.1.6",
     "ang-accordion": "*",
-    "angular-img-fallback": "^0.2.0"
+    "angular-img-fallback": "^0.2.0",
+    "jquery.facedetection": "^2.0.2"
   },
   "resolutions": {
     "angular": "^1.6.4"

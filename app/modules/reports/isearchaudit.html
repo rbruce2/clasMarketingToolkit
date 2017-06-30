@@ -9,7 +9,7 @@
             <h2 class="text-center">Which school/department would you like to audit?</h2><br>
 
             <div layout="row" flex="50" class="centerRow">
-                <md-select ng-model="vm.department" placeholder="School/Department" class="centerRow">
+                <md-select id="depList" ng-model="vm.department" placeholder="School/Department" class="centerRow">
                   <md-option value="1409"><strong>College of Liberal Arts & Sciences</strong></md-option>
                   <md-option value="0" flex-offset="5">Aerospace Studies</md-option>
                   <md-option value="1" flex-offset="5">American Indian Policy Institute</md-option>
@@ -17,61 +17,70 @@
                   <md-option value="3" flex-offset="5">Az Ctr Medieval/Renais Studies</md-option>
                   <md-option value="4" flex-offset="5">Center For Asian Research</md-option>
                   <md-option value="5" flex-offset="5">Center for Bioenergy & Photosynthesis</md-option>
-                  <md-option value="6" flex-offset="5">Center For Film Media Research</md-option>
-                  <md-option value="7" flex-offset="5">Center for Meteorite Studies</md-option>
-                  <md-option value="8" flex-offset="5">CLAS Advancement</md-option>
-                  <md-option value="9" flex-offset="5">CLAS IDT</md-option>
-                  <md-option value="10" flex-offset="5">CLAS Journals</md-option>
-                  <md-option value="11" flex-offset="5">CLAS MLS Program</md-option>
-                  <md-option value="12" flex-offset="5">CLAS Office of Student & Acad</md-option>
-                  <md-option value="13" flex-offset="5">CLAS Res & Facil</md-option>
-                  <md-option value="14" flex-offset="5">CLAS Research Technical Serv</md-option>
-                  <md-option value="15" flex-offset="5">Department of Physics</md-option>
-                  <md-option value="16" flex-offset="5">English</md-option>
-                  <md-option value="17" flex-offset="5">Gerontology</md-option>
-                  <md-option value="18" flex-offset="5">Hispanic Research Center</md-option>
-                  <md-option value="19" flex-offset="5">Hugh Downs School Of Human Communication</md-option>
-                  <md-option value="20" flex-offset="5">Inst For Social Science Rsch</md-option>
-                  <md-option value="21" flex-offset="5">Institute Humanities Research</md-option>
-                  <md-option value="22" flex-offset="5">Institute of Human Origins</md-option>
-                  <md-option value="23" flex-offset="5">Jewish Studies</md-option>
-                  <md-option value="24" flex-offset="5">Kinesiology Peb East</md-option>
-                  <md-option value="25" flex-offset="5">Kinesiology Peb West</md-option>
-                  <md-option value="26" flex-offset="5">LeRoy Eyring CSSS</md-option>
-                  <md-option value="27" flex-offset="5">Lincoln Center Applied Ethics</md-option>
-                  <md-option value="28" flex-offset="5">Mathematics</md-option>
-                  <md-option value="29" flex-offset="5">MCMSC</md-option>
-                  <md-option value="30" flex-offset="5">Melikian Center</md-option>
-                  <md-option value="31" flex-offset="5">Military Science</md-option>
-                  <md-option value="32" flex-offset="5">NACTS</md-option>
-                  <md-option value="33" flex-offset="5">Naval Science</md-option>
-                  <md-option value="34" flex-offset="5">Office Of Climatology</md-option>
-                  <md-option value="35" flex-offset="5">Origins</md-option>
-                  <md-option value="36" flex-offset="5">Piper Center</md-option>
-                  <md-option value="37" flex-offset="5">Prgm Soc Dynamics & Complexity</md-option>
-                  <md-option value="38" flex-offset="5">PRIME Center</md-option>
-                  <md-option value="39" flex-offset="5">Program Metabolic Biology</md-option>
-                  <md-option value="40" flex-offset="5">Project Humanities</md-option>
-                  <md-option value="41" flex-offset="5">Psychology</md-option>
-                  <md-option value="42" flex-offset="5">School of Civic and Economic Thought and Leadership</md-option>
-                  <md-option value="43" flex-offset="5">School Of Earth and Space Exploration</md-option>
-                  <md-option value="44" flex-offset="5">School of Geog Sci & Urban Pln</md-option>
-                  <md-option value="45" flex-offset="5">School of Human Evolution and Social Change</md-option>
-                  <md-option value="46" flex-offset="5">School of Life Sciences</md-option>
-                  <md-option value="47" flex-offset="5">School of Molecular Sciences</md-option>
-                  <md-option value="48" flex-offset="5">School of Politics & Global St</md-option>
-                  <md-option value="49" flex-offset="5">School of Social Transformation</md-option>
-                  <md-option value="50" flex-offset="5">School of Transborder Studies</md-option>
-                  <md-option value="51" flex-offset="5">SHPRS</md-option>
-                  <md-option value="52" flex-offset="5">SILC</md-option>
-                  <md-option value="53" flex-offset="5">Study Of Religion & Conflict</md-option>
-                  <md-option value="54" flex-offset="5">The Beyond Center</md-option>
-                  <md-option value="55" flex-offset="5">The Sanford School</md-option>
+                  <md-option value="6" flex-offset="5">Center for Evolution & Medicine</md-option>
+                  <md-option value="7" flex-offset="5">Center For Film Media Research</md-option>
+                  <md-option value="8" flex-offset="5">Center for Meteorite Studies</md-option>
+                  <md-option value="9" flex-offset="5">CLAS Advancement</md-option>
+                  <md-option value="10" flex-offset="5">CLAS IDT</md-option>
+                  <md-option value="11" flex-offset="5">CLAS Journals</md-option>
+                  <md-option value="12" flex-offset="5">CLAS MLS Program</md-option>
+                  <md-option value="13" flex-offset="5">CLAS Office of Student & Acad</md-option>
+                  <md-option value="14" flex-offset="5">CLAS Res & Facil</md-option>
+                  <md-option value="15" flex-offset="5">CLAS Research Technical Serv</md-option>
+                  <md-option value="16" flex-offset="5">Department of Physics</md-option>
+                  <md-option value="17" flex-offset="5">English</md-option>
+                  <md-option value="18" flex-offset="5">Gerontology</md-option>
+                  <md-option value="19" flex-offset="5">Hispanic Research Center</md-option>
+                  <md-option value="20" flex-offset="5">Hugh Downs School Of Human Communication</md-option>
+                  <md-option value="21" flex-offset="5">Inst For Social Science Rsch</md-option>
+                  <md-option value="22" flex-offset="5">Institute Humanities Research</md-option>
+                  <md-option value="23" flex-offset="5">Institute of Human Origins</md-option>
+                  <md-option value="24" flex-offset="5">Jewish Studies</md-option>
+                  <md-option value="25" flex-offset="5">Kinesiology Peb East</md-option>
+                  <md-option value="26" flex-offset="5">Kinesiology Peb West</md-option>
+                  <md-option value="27" flex-offset="5">LeRoy Eyring CSSS</md-option>
+                  <md-option value="28" flex-offset="5">Lincoln Center Applied Ethics</md-option>
+                  <md-option value="29" flex-offset="5">Mathematics</md-option>
+                  <md-option value="30" flex-offset="5">MCMSC</md-option>
+                  <md-option value="31" flex-offset="5">Melikian Center</md-option>
+                  <md-option value="32" flex-offset="5">Military Science</md-option>
+                  <md-option value="33" flex-offset="5">NACTS</md-option>
+                  <md-option value="34" flex-offset="5">Naval Science</md-option>
+                  <md-option value="35" flex-offset="5">Office Of Climatology</md-option>
+                  <md-option value="36" flex-offset="5">Origins</md-option>
+                  <md-option value="37" flex-offset="5">Piper Center</md-option>
+                  <md-option value="38" flex-offset="5">Prgm Soc Dynamics & Complexity</md-option>
+                  <md-option value="39" flex-offset="5">PRIME Center</md-option>
+                  <md-option value="40" flex-offset="5">Program Metabolic Biology</md-option>
+                  <md-option value="41" flex-offset="5">Project Humanities</md-option>
+                  <md-option value="42" flex-offset="5">Psychology</md-option>
+                  <md-option value="43" flex-offset="5">School of Civic and Economic Thought and Leadership</md-option>
+                  <md-option value="44" flex-offset="5">School Of Earth and Space Exploration</md-option>
+                  <md-option value="45" flex-offset="5">School of Geog Sci & Urban Pln</md-option>
+                  <md-option value="46" flex-offset="5">School of Human Evolution and Social Change</md-option>
+                  <md-option value="47" flex-offset="5">School of Life Sciences</md-option>
+                  <md-option value="48" flex-offset="5">School of Molecular Sciences</md-option>
+                  <md-option value="49" flex-offset="5">School of Politics & Global St</md-option>
+                  <md-option value="50" flex-offset="5">School of Social Transformation</md-option>
+                  <md-option value="51" flex-offset="5">School of Transborder Studies</md-option>
+                  <md-option value="52" flex-offset="5">SHPRS</md-option>
+                  <md-option value="53" flex-offset="5">SILC</md-option>
+                  <md-option value="54" flex-offset="5">Study Of Religion & Conflict</md-option>
+                  <md-option value="55" flex-offset="5">The Beyond Center</md-option>
+                  <md-option value="56" flex-offset="5">The Sanford School</md-option>
                 </md-select>
             </div>
 
-            <div class="text-center" style="padding-top:25px;">
+            <div class="text-center" style="padding-top:25px;padding-bottom:55px;">
               <span class="blueBtn"><a href="#!/reports/isearchaudit" ng-click="vm.startProfileAudit()">Run</a></span>
+            </div>
+
+            <div class="isearchAuditInstructions">
+              <i class="fa fa-info-circle fa-2x"></i>
+              <h4>iSearch Audit Guidelines</h4>
+              <p>Lorem ipsum dolor sit amet, his scripta disputationi ei, omnes putent pro eu. Pri ne posse laoreet singulis. Dolor vocibus ad eam. Cetero offendit et sit, cibo putant suscipit eam id. Sea ut dicat nostro, cu pri laoreet insolens, ex veri omittam adversarium mea. Mei vide fabulas suscipiantur no, his voluptua expetendis eu, ferri delicatissimi ea pri. Nam ex omittam luptatum posidonium, eum nobis graeci delicata ad.</p>
+              <p>Lorem ipsum dolor sit amet, his scripta disputationi ei, omnes putent pro eu. Pri ne posse laoreet singulis. Dolor vocibus ad eam. Cetero offendit et sit, cibo putant suscipit eam id. Sea ut dicat nostro, cu pri laoreet insolens, ex veri omittam adversarium mea. Mei vide fabulas suscipiantur no, his voluptua expetendis eu, ferri delicatissimi ea pri. Nam ex omittam luptatum posidonium, eum nobis graeci delicata ad.</p>
+              <p>Lorem ipsum dolor sit amet, his scripta disputationi ei, omnes putent pro eu. Pri ne posse laoreet singulis. Dolor vocibus ad eam. Cetero offendit et sit, cibo putant suscipit eam id. Sea ut dicat nostro, cu pri laoreet insolens, ex veri omittam adversarium mea. Mei vide fabulas suscipiantur no, his voluptua expetendis eu, ferri delicatissimi ea pri. Nam ex omittam luptatum posidonium, eum nobis graeci delicata ad.</p>
             </div>
 
         </md-card-content>
@@ -94,9 +103,10 @@
         <!-- isearch Report -->
         <md-card-content class="fade" ng-if="!vm.loading && vm.reportDone">
             <br>
-            <h2 class="text-center">iSearch Profile Audit Report</h2>
+            <h2 class="text-center reportTitle">{{vm.currentReportTitle}}</h2>
+            <p class="text-center reportSubtitle">iSearch Profile Audit Report</p>
             <span class="floatRightTop blueBtn ng-scope">
-              <a href="#!/reports/isearchaudit">Back</a>
+              <a href="" ng-click="vm.backToiSearchAuditList()">Back</a>
             </span>
             <br>
             <div class="reportResults" layout="row">
@@ -117,11 +127,53 @@
               <div flex="30" layout="column" style="padding-left:28px;margin-top:-7px;">
                 <md-subheader style="background-color:#ffffff;">
                 <div class="overallResults">
-                  <p class="overallTitle">Overall Score</p>
-                  <p style="color:#ffffff;padding-bottom:14px;padding-top:14px;"><ng-gauge size="200" type="full" thick="7" used="vm.overall_total | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge></p>
+                  <p class="overallTitle">Overall Score
+                    <span class="detailsIcon">
+                      <md-tooltip md-direction="left" ng-if="vm.showOverallDetails === false">Show details</md-tooltip>
+                      <md-tooltip md-direction="left" ng-if="vm.showOverallDetails === true">Overall Score</md-tooltip>
+                      <i class="fa fa-info-circle" ng-click="vm.showOverallDetails = !vm.showOverallDetails"></i>
+                    </span>
+                  </p>
+                  <p style="color:#ffffff;padding-bottom:14px;padding-top:14px;" ng-if="vm.showOverallDetails === false"><ng-gauge size="200" type="full" thick="7" used="vm.overall_total | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge></p>
+                  <div style="color:#ffffff;padding:14px;overflow:auto;" class="container" ng-if="vm.showOverallDetails ===  true">
+                    <div class="row" style="padding-top:20px;">
+                      <div class="colGauge">
+                        <ng-gauge size="120" type="semi" label="Photo" thick="4" used="vm.overall_total_photo | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge>
+                      </div>
+                      <div class="colGauge">
+                        <ng-gauge size="120" type="semi" label="Phone Number" thick="4" used="vm.overall_total_phone | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge>
+                      </div>
+                    </div>
+                    <div class="row" style="padding-top:20px;">
+                      <div class="colGauge">
+                        <ng-gauge size="120" type="semi" label="Email" thick="4" used="vm.overall_total_email | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge>
+                      </div>
+                      <div class="colGauge">
+                        <ng-gauge size="120" type="semi" label="Primary Department" thick="4" used="vm.overall_total_primDep | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge>
+                      </div>
+                    </div>
+                    <div class="row" style="padding-top:20px;">
+                      <div class="colGauge">
+                        <ng-gauge size="120" type="semi" label="Biography" thick="4" used="vm.overall_total_bio | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge>
+                      </div>
+                      <div class="colGauge">
+                        <ng-gauge size="120" type="semi" label="Short Bio" thick="4" used="vm.overall_total_shortBio | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-
-                <div class="">
+                <div class="overallWarnings">
+                  <div class="reworkDirectory" ng-if="vm.reworkDirectory >= 10">
+                    <i class="fa fa-warning"></i>
+                    <span style="line-height:16px;">There are <strong>{{vm.reworkDirectory}}</strong> profiles with duplicate titles for this department. This suggests that the directory structure is not in compliance with ASU branding standards.</span>
+                    <p class="reviewStandardsBtn">
+                      <md-button ng-click="vm.showDirectoryPresentation($event)">
+                      Review Standards
+                    </md-button>
+                  </p>
+                  </div>
+                </div>
+                <div class="filters">
                   <br>
                   <p><strong>Filter by score:</strong></p>
                   <p>
@@ -159,14 +211,14 @@
 <!-- END: Report Results -->
 
 <!-- pageslide template -->
-<div class="someClass" ng-if="vm.checked" style="position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.59);">
+<div class="someClass" ng-if="vm.checked" ng-click="vm.togglePageslide()" style="position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.59);z-index:60;">
 </div>
 <div pageslide ps-open="vm.checked" ps-size="33%">
     <div style="padding:20px" id="demo-right">
       <div class="detailsHeaderInfo">
-        <img ng-src="{{vm.UserSlider.photoUrl}}" fallback-src="/app/assets/images/imgFallback.png" alt="">
+        <img id="picture" ng-src="{{vm.UserSlider.photoUrl}}" fallback-src="/app/assets/images/imgFallback.png" alt="">
         <div class="dhiLeft">
-          <h2>{{vm.UserSlider.displayName}}</h2>
+          <h2><strong>{{vm.UserSlider.displayName}}</strong></h2>
           <p>{{vm.UserSlider.primaryDepartment}}</p>
         </div>
         <div class="dhiRight">
@@ -248,6 +300,12 @@
                   <collapsible-item item-title="Short bio does not seem to be written in 3rd person" ng-if="vm.UserSlider.audit_shortBio_1stPerson_warning">
                       <div>Add work number to profile</div>
                   </collapsible-item>
+                  <collapsible-item item-title="Duplicate titles" ng-if="vm.UserSlider.audit_dupTitles">
+                      <div>This profile has duplicate titles</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="No Titles" ng-if="vm.UserSlider.audit_titles">
+                      <div>This profile has no titles</div>
+                  </collapsible-item>
               </ang-accordion>
             </md-content>
           </md-tab>
@@ -287,6 +345,7 @@
         <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
           <md-button class="md-raised" ng-click="vm.togglePageslide()">Close</md-button>
           <md-button class="md-raised md-primary" style="color:#ffffff;" ng-href="{{vm.UserSlider.eid}}" target="_blank"><i class="fa fa-user"></i> iSearch Profile</md-button>
+          <!-- <md-button class="md-raised md-primary" style="color:#ffffff;" onclick="checkImgForFace()"><i class="fa fa-user"></i> Check image</md-button> -->
         </section>
       </div>
     </div>
