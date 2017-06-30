@@ -14,7 +14,6 @@
 
 .floatRight{
   float: right;
-  margin-top: -14px;
 }
 
 .floatRightTop{
@@ -323,4 +322,13 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 
 .detailsIcon{
   float: right;
+}
+
+.fa-search{
+  font-size: 18px !important;
+  color: #a0a0a0;
+}
+
+md-input-container{
+  margin-bottom: 0px !important;
 }
