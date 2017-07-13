@@ -178,6 +178,7 @@
 <script src="/src/bower_components/ang-accordion/js/ang-accordion.js"></script>
 <script src="/src/bower_components/angular-img-fallback/angular.dcb-img-fallback.js"></script>
 <script src="/src/bower_components/jquery.facedetection/dist/jquery.facedetection.min.js"></script>
+<script src="/src/bower_components/ng-csv/build/ng-csv.min.js"></script>
 <script src="/app/app.js"></script>
 <script src="/app/app.config.js"></script>
 <script src="/app/modules/home/homeModule.js"></script>
@@ -204,6 +205,16 @@ function checkImgForFace() {
 			}
 	});
 }
+</script>
+
+<script>
+    !(function(e) {
+        var basehref = "https://clas.teamwork.com",
+            token = "50e976d7-bfdf-4dc0-917a-83cf70505de9";
+
+        window.deskcontactwidget = {};
+        var r=e.getElementsByTagName("script")[0],c=e.createElement("script");c.type="text/javascript",c.async=!0,c.src=basehref+"/support/v1/contact/main.js?token="+token,r.parentNode.insertBefore(c,r),window.addEventListener("message",function(e){var t=e.data[0],a=e.data[1];switch(t){case"setContactFormHeight":document.getElementById("deskcontactwidgetframe").height=Math.min(a, window.window.innerHeight - 75)}},!1);
+    })(document);
 </script>
 
 </body>

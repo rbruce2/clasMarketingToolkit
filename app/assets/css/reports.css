@@ -294,8 +294,8 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 
 .isearchAuditInstructions{
   padding: 10px;
-  background-color: #f9f7f7;
-  width: 95%;
+  background-color: rgba(245, 242, 242, 0.42);
+  width: 86%;
   margin: 0 auto;
   border-radius: 5px;
   padding-bottom: 20px;
@@ -306,12 +306,16 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
   color: #3498db;
 }
 
-.isearchAuditInstructions h4{
+.isearchAuditInstructions h3{
   text-align: center;
 }
 
 .isearchAuditInstructions p{
   padding: 5px;
+}
+
+.isearchAuditInstructions a{
+  color: #8c1d40;
 }
 
 /*gauge details styles*/
@@ -331,4 +335,26 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 
 md-input-container{
   margin-bottom: 0px !important;
+}
+
+.center{
+  text-align: center;
+}
+
+.infoList{
+  color: #ffffff;
+  margin: 10px;
+  padding: 20px;
+  background-color: #3498db;
+  border-radius: 4px;
+}
+
+.infoList ul{
+  list-style-type: none;
+  padding: 0;
+}
+
+.infoList li{
+  line-height: 26px;
+  font-weight: 500;
 }

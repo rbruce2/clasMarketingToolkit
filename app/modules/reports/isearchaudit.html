@@ -74,15 +74,41 @@
             <div class="text-center" style="padding-top:25px;padding-bottom:55px;">
               <span class="blueBtn"><a href="#!/reports/isearchaudit" ng-click="vm.startProfileAudit()">Run</a></span>
             </div>
-
+            <!-- <hr style="width:86%;color:whitesmoke;"> -->
             <div class="isearchAuditInstructions">
               <i class="fa fa-info-circle fa-2x"></i>
-              <h4>iSearch Audit Guidelines</h4>
-              <p>Lorem ipsum dolor sit amet, his scripta disputationi ei, omnes putent pro eu. Pri ne posse laoreet singulis. Dolor vocibus ad eam. Cetero offendit et sit, cibo putant suscipit eam id. Sea ut dicat nostro, cu pri laoreet insolens, ex veri omittam adversarium mea. Mei vide fabulas suscipiantur no, his voluptua expetendis eu, ferri delicatissimi ea pri. Nam ex omittam luptatum posidonium, eum nobis graeci delicata ad.</p>
-              <p>Lorem ipsum dolor sit amet, his scripta disputationi ei, omnes putent pro eu. Pri ne posse laoreet singulis. Dolor vocibus ad eam. Cetero offendit et sit, cibo putant suscipit eam id. Sea ut dicat nostro, cu pri laoreet insolens, ex veri omittam adversarium mea. Mei vide fabulas suscipiantur no, his voluptua expetendis eu, ferri delicatissimi ea pri. Nam ex omittam luptatum posidonium, eum nobis graeci delicata ad.</p>
-              <p>Lorem ipsum dolor sit amet, his scripta disputationi ei, omnes putent pro eu. Pri ne posse laoreet singulis. Dolor vocibus ad eam. Cetero offendit et sit, cibo putant suscipit eam id. Sea ut dicat nostro, cu pri laoreet insolens, ex veri omittam adversarium mea. Mei vide fabulas suscipiantur no, his voluptua expetendis eu, ferri delicatissimi ea pri. Nam ex omittam luptatum posidonium, eum nobis graeci delicata ad.</p>
+              <h3>iSearch Audit Guidelines</h3>
+              <p>The iSearch Profile Audit scans all iSearch profiles within a department for compliance with <a href="https://brandguide.asu.edu/web-standards/isearch-profiles" target="_blank">ASU iSearch brand standards.</a> Each profile is assigned a score, between 0 and 100.</p>
+              <p>This tool is designed for directory administrators, communicators and managers to get a snapshot of their iSearch department's health and identify areas of improvement for each profile.</p>
+              <p>Along with a percentage for each profile, the tool will display error messages for each profile highlighting the deficiency.</p>
+              <p>Faculty, staff, students and student workers have different expectations for profile completeness.</p>
+            <br>
+            <div layout="row" style="width:80%;margin:0 auto;">
+              <div flex class="infoList">
+                <p class="center">
+                <strong>The program currently tests for:</strong>
+                  <ul>
+                    <li>Biography and short biography</li>
+                    <li>Contact information</li>
+                    <li>Titles</li>
+                    <li>Expertise areas</li>
+                    <li>Education and CV</li>
+                  </ul>
+                </p>
+              </div>
+              <div flex class="infoList">
+                <p class="center">
+                  <strong>The following scoring is used:</strong>
+                  <ul>
+                    <li>100: Dark green; profile is complete</li>
+                    <li>90-99: Green; profile is almost entirely complete</li>
+                    <li>75-89: Yellow, profile is missing 1 or more key areas</li>
+                    <li>0-74: Red, profile is missing multiple key areas</li>
+                  </ul>
+                </p>
+              </div>
             </div>
-
+          </div>
         </md-card-content>
     </md-card>
 </div>
@@ -189,6 +215,8 @@
                     <br>
                     <div ng-click="vm.scoreFilter = 50" class="text-center filterBtn">Completeness less than 50%</div>
                     <br>
+                    <div ng-click="vm.scoreFilter = 100" class="text-center filterBtn">Show All</div>
+                    <br>
                     <md-menu>
                       <md-button class="md-primary floatRight" ng-click="$mdMenu.open($event)">Report Options</md-button>
                       <md-menu-content width="2">
@@ -196,6 +224,12 @@
                           <md-button ng-click="vm.printDiv(reportResults)">
                             <i class="fa fa-print"></i>
                              Print
+                          </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                          <md-button ng-csv="vm.isearch_results | filter: vm.lessThan('audit_score', vm.scoreFilter) | filter: { displayName: vm.searchInput } " csv-header="['Name', 'Email', 'Primary Title', 'Audit Score', 'iSearch Profile']" csv-column-order="['displayName', 'emailAddress', 'primaryTitle', 'audit_score', 'isearchProfileUrl']" filename="iSearchAuditReport.csv">
+                            <i class="fa fa-file-excel-o"></i>
+                             Export to CSV/Excel
                           </md-button>
                         </md-menu-item>
                       </md-menu-content>
@@ -236,10 +270,12 @@
           <ul>
             <li ng-repeat="title in vm.UserSlider.titles track by $index">{{title}}</li>
           </ul>
-          <h4>Expertise Areas:</h4>
-          <ul>
-            <li ng-repeat="area in vm.UserSlider.expertiseAreas track by $index">{{area}}</li>
-          </ul>
+          <div ng-if="vm.UserSlider.primaryEmplClass === 'Faculty' || vm.UserSlider.primaryEmplClass === 'Faculty w/Admin Appointment' || vm.UserSlider.primaryEmplClass === 'Academic Professional' || vm.UserSlider.primaryEmplClass === 'Academic Prof w/Admin Appt'">
+            <h4>Expertise Areas:</h4>
+            <ul>
+              <li ng-repeat="area in vm.UserSlider.expertiseAreas track by $index">{{area}}</li>
+            </ul>
+          </div>
         </div>
         <div class="doRight">
 
@@ -251,64 +287,73 @@
             <md-content class="md-padding" style="background-color:#ffffff;">
               <ang-accordion close-icon-class="fa fa-warning" open-icon-class="fa fa-warning" >
                   <collapsible-item item-title="Missing telephone number" ng-if="vm.UserSlider.audit_phone">
-                      <div>Add work number to profile</div>
+                      <div>Add a phone number. Complete through My ASU.</div>
                   </collapsible-item>
-                  <collapsible-item item-title="No picture was found for this profile" ng-if="vm.UserSlider.audit_photoUrl">
-                      <div>Add work number to profile</div>
+                  <collapsible-item item-title="Missing profile photo" ng-if="vm.UserSlider.audit_photoUrl">
+                      <div>Add a professional profile photo. The photo should be between 150 pixels by 150 pixels and not larger than 800 pixels by 800 pixels.</div>
                   </collapsible-item>
-                  <collapsible-item item-title="No email was found for this profile" ng-if="vm.UserSlider.audit_email">
-                      <div>Add work number to profile</div>
+                  <collapsible-item item-title="Missing email" ng-if="vm.UserSlider.audit_email">
+                      <div>Add ASU email. Complete through My ASU.</div>
                   </collapsible-item>
-                  <collapsible-item item-title="Profile does not have a primary title" ng-if="vm.UserSlider.audit_affiliationTitle">
-                      <div>Add work number to profile</div>
+                  <collapsible-item item-title="Missing job title" ng-if="vm.UserSlider.audit_affiliationTitle">
+                      <div>Add a job title. Please contact your Directory Administrator(s).</div>
                   </collapsible-item>
                   <collapsible-item item-title="Missing unit affiliation" ng-if="vm.UserSlider.audit_unitName">
-                      <div>Add work number to profile</div>
+                      <div>All faculty, staff and graduate students have a unit affiliation. Contact your Directory Administrator(s) to add an affiliation. Secondary affiliations, such as sustainability scientist and adjunct positions, should be written in your bio text.</div>
                   </collapsible-item>
-                  <collapsible-item item-title="Profile does not have any expertise areas" ng-if="vm.UserSlider.audit_expertiseAreas">
-                      <div>Add work number to profile</div>
+                  <collapsible-item item-title="Missing expertise areas" ng-if="vm.UserSlider.audit_expertiseAreas">
+                      <div>Faculty members are expected to have three or more expertise areas.</div>
                   </collapsible-item>
-                  <collapsible-item item-title="Profile should have 3 or more expertise areas" ng-if="vm.UserSlider.audit_expertiseAreas_length">
-                      <div>Add work number to profile</div>
+                  <collapsible-item item-title="Insufficient expertise areas listed" ng-if="vm.UserSlider.audit_expertiseAreas_length">
+                      <div>Faculty members are expected to have three or more expertise areas. If you can’t find what matches your area, please send an email to your Directory Administrator(s).</div>
                   </collapsible-item>
                   <collapsible-item item-title="Missing employee category" ng-if="vm.UserSlider.audit_emplCat">
-                      <div>Add work number to profile</div>
+                      <div>All employees are categorized as faculty, staff, student or student worker. Please contact your Directory Administrator(s).</div>
                   </collapsible-item>
                   <collapsible-item item-title="Missing primary campus location" ng-if="vm.UserSlider.audit_campus">
-                      <div>Add work number to profile</div>
+                      <div>Add a primary campus location. Please contact your Directory Administrator(s).</div>
                   </collapsible-item>
-                  <collapsible-item item-title="Profile does not have a mail code" ng-if="vm.UserSlider.audit_mailCode">
-                      <div>Add work number to profile</div>
+                  <collapsible-item item-title="Missing mail code" ng-if="vm.UserSlider.audit_mailCode">
+                      <div>Add a mail code. Please contact your Directory Administrator(s).</div>
                   </collapsible-item>
-                  <collapsible-item item-title="Profile does not have a Bio" ng-if="vm.UserSlider.audit_bio">
-                      <div>Add work number to profile</div>
+                  <collapsible-item item-title="Missing biography" ng-if="vm.UserSlider.audit_bio">
+                      <div>Write a biography. Biographies should be 100-300 words and written in the third person. Do not list education or write in primary affiliations.</div>
                   </collapsible-item>
-                  <collapsible-item item-title="Bio must be at least 100 words in length" ng-if="vm.UserSlider.audit_bio_min">
-                      <div>Add work number to profile</div>
+                  <collapsible-item item-title="Biography is too short" ng-if="vm.UserSlider.audit_bio_min">
+                      <div>Biographies should be 100-300 words and written in the third person. Do not list education or write in primary affiliations.</div>
                   </collapsible-item>
-                  <collapsible-item item-title="Bio must be less than 300 words in length" ng-if="vm.UserSlider.audit_bio_max">
-                      <div>Add work number to profile</div>
+                  <collapsible-item item-title="Biography exceeds word limit" ng-if="vm.UserSlider.audit_bio_max">
+                      <div>Biographies should be 100-300 words and written in the third person. Do not list education or write in primary affiliations.</div>
                   </collapsible-item>
-                  <collapsible-item item-title="Bio does not seem to be written in 3rd person" ng-if="vm.UserSlider.audit_bio_1stPerson_warning">
-                      <div>Add work number to profile</div>
+                  <collapsible-item item-title="Biography not written in third person" ng-if="vm.UserSlider.audit_bio_1stPerson_warning">
+                      <div>Biographies should be 100-300 words and written in the third person. Do not list education or write in primary affiliations.</div>
                   </collapsible-item>
-                  <collapsible-item item-title="Short bio is missing" ng-if="vm.UserSlider.audit_shortBio">
-                      <div>Add work number to profile</div>
+                  <collapsible-item item-title="Missing short biography" ng-if="vm.UserSlider.audit_shortBio">
+                      <div>Short biographies are used on the search page. They should be less than 40 words and written in the third person. Use last name only in this text, if used.</div>
                   </collapsible-item>
-                  <collapsible-item item-title="Short bio must be less than 40 words in length" ng-if="vm.UserSlider.audit_shortBio_max">
-                      <div>Add work number to profile</div>
+                  <collapsible-item item-title="Short biography exceeds word limit" ng-if="vm.UserSlider.audit_shortBio_max">
+                      <div>Short biographies should be less than 40 words.</div>
                   </collapsible-item>
-                  <collapsible-item item-title="Short bio includes first name" ng-if="vm.UserSlider.audit_shortBio_firstName">
-                      <div>Add work number to profile</div>
+                  <collapsible-item item-title="Short biography includes first name" ng-if="vm.UserSlider.audit_shortBio_firstName">
+                      <div>The short biography can only include the last name, if used. Must be written in the third person.</div>
                   </collapsible-item>
-                  <collapsible-item item-title="Short bio does not seem to be written in 3rd person" ng-if="vm.UserSlider.audit_shortBio_1stPerson_warning">
-                      <div>Add work number to profile</div>
+                  <collapsible-item item-title="Short biography not written in third person" ng-if="vm.UserSlider.audit_shortBio_1stPerson_warning">
+                      <div>Short biographies should be less than 40 words and written in the third person. Use last name only in this text, if used.</div>
                   </collapsible-item>
-                  <collapsible-item item-title="Duplicate titles" ng-if="vm.UserSlider.audit_dupTitles">
-                      <div>This profile has duplicate titles</div>
+                  <collapsible-item item-title="Duplicate titles in same department" ng-if="vm.UserSlider.audit_dupTitles">
+                      <div>Titles in each department must be unique. Please contact your Directory Administrator(s).</div>
                   </collapsible-item>
-                  <collapsible-item item-title="No Titles" ng-if="vm.UserSlider.audit_titles">
-                      <div>This profile has no titles</div>
+                  <collapsible-item item-title="Missing job title" ng-if="vm.UserSlider.audit_titles">
+                      <div>All employees are required to have a working title.</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Job title is blank" ng-if="vm.UserSlider.audit_titleBlank">
+                      <div>Titles can not be blank.</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Missing education" ng-if="vm.UserSlider.audit_education">
+                      <div>All Faculty are required to list their education.</div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Missing CV" ng-if="vm.UserSlider.audit_cv">
+                      <div>All Faculty are required to upload a copy of their CV.</div>
                   </collapsible-item>
               </ang-accordion>
             </md-content>

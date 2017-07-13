@@ -133,9 +133,17 @@
 						//setup index identifier for filter
 						vm.isearch_results[i].idxIdentifier = i
 
+						// setup isearch profile url
+						vm.isearch_results[i].isearchProfileUrl = 'https://isearch.asu.edu/profile/' + vm.isearch_results[i].eid
 
-						var pass = 16;
+
+						var pass = 21;
 						var totalScore = 0;
+
+						//the Anna Consie test
+						if (vm.isearch_results[i].asuriteId === 'aconsie') {
+							pass = pass - .2;
+						}
 
 						// Phone Number (1pt)
 						if (!vm.isearch_results[i].phone) {
@@ -171,9 +179,22 @@
 							pass--;
 						}
 
-						// Titles (1pt)
+						// Titles (duplicate titles on same department and blank title test) (2pt)
 						if (vm.isearch_results[i].titles) {
-								var dupCheck = hasDuplicates(vm.isearch_results[i].titles)
+								var fullArray = []
+								var hasBlank = false
+								for (var x = 0; x < vm.isearch_results[i].titles.length; x++) {
+									fullArray.push(vm.isearch_results[i].titles[x] + ' (' + vm.isearch_results[i].departments[x] + ')')
+									if (hasBlank === false) {
+										if (vm.isearch_results[i].titles[x] === "") {
+											vm.isearch_results[i].audit_titleBlank = 'fail'
+											pass--;
+											hasBlank = true
+										}
+									}
+								}
+								vm.isearch_results[i].titlePlusDeps = fullArray
+								var dupCheck = hasDuplicates(fullArray)
 								if (dupCheck === true) {
 									vm.reworkDirectory++;
 									vm.isearch_results[i].audit_dupTitles = 'fail';
@@ -182,8 +203,9 @@
 						}
 						else {
 								vm.isearch_results[i].audit_titles = 'fail';
-								pass--;
+								pass = pass - 2;
 						}
+
 
 						// Unit name (1pt)
 						if (!vm.isearch_results[i].primaryiSearchDepartmentAffiliation) {
@@ -192,7 +214,7 @@
 						}
 
 						// expertiseAreas Faculty only (1pt)
-						if (vm.isearch_results[i].primaryEmplClass !== 'University Staff') {
+						if (vm.isearch_results[i].primaryEmplClass === 'Faculty' || vm.isearch_results[i].primaryEmplClass === 'Faculty w/Admin Appointment' || vm.isearch_results[i].primaryEmplClass === 'Academic Professional' || vm.isearch_results[i].primaryEmplClass === 'Academic Prof w/Admin Appt') {
 							if (!vm.isearch_results[i].expertiseAreas) {
 								vm.isearch_results[i].audit_expertiseAreas = 'fail';
 								console.log('no expertise areas');
@@ -224,11 +246,11 @@
 							pass--;
 						}
 
-						// Bio (word limit: 100min 300max) (3rd person) (no primary affiliations) (3pt)
+						// Bio (word limit: 100min 300max) (3rd person) (no primary affiliations) (2pt)
 						if (!vm.isearch_results[i].bio) {
 							vm.isearch_results[i].audit_bio = 'No bio found';
 							overallBioFail++;
-							pass = pass - 3
+							pass = pass - 2
 						}
 
 						else if (vm.isearch_results[i].bio) {
@@ -264,11 +286,11 @@
 							}
 						}
 
-						// Short Bio (word limit: 40max) (3rd person) (no full name just last) (3pt)
+						// Short Bio (word limit: 40max) (3rd person) (no full name just last) (1pt)
 						if (!vm.isearch_results[i].shortBio) {
-							vm.isearch_results[i].audit_shortBio = 'No shortBio found';
+							vm.isearch_results[i].audit_shortBio = 'fail';
 							overallShortBioFail++;
-							pass = pass - 3
+							pass--;
 						}
 
 						else if (vm.isearch_results[i].shortBio) {
@@ -279,7 +301,7 @@
 							if (wordCount > 40) {
 								console.log('Short Bio must be less than 40 words in length');
 								vm.isearch_results[i].audit_shortBio_max = 'Bio must be less than 40 words in length'
-								pass--;
+								pass= pass - .6;
 							}
 
 							// check if written in first person and if first name is used
@@ -298,24 +320,39 @@
 									console.log('first person and first name fail');
 									vm.isearch_results[i].audit_shortBio_1stPerson_warning = 'fail'
 									vm.isearch_results[i].audit_shortBio_firstName = 'fail'
-									pass = pass - 2;
+									pass = pass - .4;
 									break
 								}
 								if (pronounCount >= 1 && w + 1 == words.length) {
 									console.log('third person fail');
 									vm.isearch_results[i].audit_shortBio_1stPerson_warning = 'fail'
-									pass--
+									pass = pass - .2;
 								}
 								if (firstNameCount >= 1 && w + 1 == words.length) {
 									console.log('first name fail');
 									vm.isearch_results[i].audit_shortBio_firstName = 'fail'
-									pass--
+									pass = pass - .2;
 								}
 							}
 						}
 
+						// education test Faculty only (1pt)
+						if (vm.isearch_results[i].primaryEmplClass === 'Faculty' || vm.isearch_results[i].primaryEmplClass === 'Faculty w/Admin Appointment' || vm.isearch_results[i].primaryEmplClass === 'Academic Professional' || vm.isearch_results[i].primaryEmplClass === 'Academic Prof w/Admin Appt') {
+							if (!vm.isearch_results[i].education) {
+								vm.isearch_results[i].audit_education = 'fail';
+								pass--;
+							}
+						}
 
-						totalScore = pass/16 * 100;
+						// cv test Faculty only (1pt)
+						if (vm.isearch_results[i].primaryEmplClass === 'Faculty' || vm.isearch_results[i].primaryEmplClass === 'Faculty w/Admin Appointment' || vm.isearch_results[i].primaryEmplClass === 'Academic Professional' || vm.isearch_results[i].primaryEmplClass === 'Academic Prof w/Admin Appt') {
+							if (!vm.isearch_results[i].cvUrl) {
+								vm.isearch_results[i].audit_cv = 'fail';
+								pass--;
+							}
+						}
+
+						totalScore = pass/21 * 100;
 
 						vm.isearch_results[i].audit_score = totalScore;
 						overallScores.push(totalScore);
@@ -370,9 +407,10 @@
 					console.log(vm.isearch_results);
 					if (!vm.checked) {
 						vm.UserSlider.displayName = vm.isearch_results[userIndex].displayName
+						vm.UserSlider.primaryEmplClass = vm.isearch_results[userIndex].primaryEmplClass
 						vm.UserSlider.photoUrl = vm.isearch_results[userIndex].photoUrl
 						vm.UserSlider.primaryDepartment = vm.isearch_results[userIndex].primaryDepartment
-						vm.UserSlider.titles = vm.isearch_results[userIndex].titles
+						vm.UserSlider.titles = vm.isearch_results[userIndex].titlePlusDeps
 						vm.UserSlider.expertiseAreas = vm.isearch_results[userIndex].expertiseAreas
 						vm.UserSlider.bio = vm.isearch_results[userIndex].bio
 						vm.UserSlider.shortBio = vm.isearch_results[userIndex].shortBio
@@ -402,6 +440,9 @@
 						vm.UserSlider.audit_shortBio_firstName = vm.isearch_results[userIndex].audit_shortBio_firstName
 						vm.UserSlider.audit_dupTitles = vm.isearch_results[userIndex].audit_dupTitles
 						vm.UserSlider.audit_titles = vm.isearch_results[userIndex].audit_titles
+						vm.UserSlider.audit_education = vm.isearch_results[userIndex].audit_education
+						vm.UserSlider.audit_titleBlank = vm.isearch_results[userIndex].audit_titleBlank
+						vm.UserSlider.audit_cv = vm.isearch_results[userIndex].audit_cv
 
 					}
 
@@ -476,7 +517,7 @@
 				overallEmailFail = 0
 				overallPrimDepFail = 0
 				overallBioFail = 0
-				overallShortBioFail = 0 
+				overallShortBioFail = 0
 			}
 
 		} //end ReportsCtrl function
