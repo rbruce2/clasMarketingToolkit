@@ -281,7 +281,7 @@
 
         </div>
       </div>
-      <div class="tabContent">
+      <div class="tabContent" flex>
         <md-tabs md-border-bottom class="asuPalette">
           <md-tab label="Needs Attention" ng-if="vm.UserSlider.audit_score !== 100">
             <md-content class="md-padding" style="background-color:#ffffff;">
@@ -302,10 +302,10 @@
                       <div>All faculty, staff and graduate students have a unit affiliation. Contact your Directory Administrator(s) to add an affiliation. Secondary affiliations, such as sustainability scientist and adjunct positions, should be written in your bio text.</div>
                   </collapsible-item>
                   <collapsible-item item-title="Missing expertise areas" ng-if="vm.UserSlider.audit_expertiseAreas">
-                      <div>Faculty members are expected to have three or more expertise areas.</div>
+                      <div>Faculty members are expected to have two or more expertise areas.</div>
                   </collapsible-item>
                   <collapsible-item item-title="Insufficient expertise areas listed" ng-if="vm.UserSlider.audit_expertiseAreas_length">
-                      <div>Faculty members are expected to have three or more expertise areas. If you can’t find what matches your area, please send an email to your Directory Administrator(s).</div>
+                      <div>Faculty members are expected to have two or more expertise areas. If you can’t find what matches your area, please send an email to your Directory Administrator(s).</div>
                   </collapsible-item>
                   <collapsible-item item-title="Missing employee category" ng-if="vm.UserSlider.audit_emplCat">
                       <div>All employees are categorized as faculty, staff, student or student worker. Please contact your Directory Administrator(s).</div>

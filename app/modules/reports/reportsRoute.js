@@ -29,6 +29,12 @@ angular.module('reports')
 				templateUrl: 'app/modules/reports/isearchaudit.html',
 				controller: 'ReportsCtrl',
 				controllerAs: 'vm'
+			})
+			.state('home.isearchauditwizard',{
+				url:'/reports/isearchauditwizard',
+				templateUrl: 'app/modules/reports/isearchauditwizard.html',
+				controller: 'isearchauditwizardCtrl',
+				controllerAs: 'vm'
 			});
 
 
