@@ -1,0 +1,40 @@
+<p class="modTitle">Reports</p>
+<div class="md-padding" flex layout-sm="column">
+    <md-card class="fullHeight">
+        <md-card-content>
+            <h2 class="text-center">wizard here</h2><br>
+            <p>{{vm.params}}</p>
+
+            <div layout="row" layout-align="left" flex="90" class="reportRow centerRow">
+                <div flex="10">
+                  <span class="fa-stack fa-lg" style="font-size:3em;">
+                    <i class="fa fa-circle fa-stack-2x asuGray"></i>
+                    <i class="fa fa-vcard-o fa-stack-1x fa-inverse"></i>
+                  </span>
+                </div>
+                <div flex="88"  style="padding-top:10px;">
+                  <span class="reportTitle">iSearch Profile Audit</span>
+                  <p style="margin-top:4px;">The iSearch profile audit report allows you to check faculty and staff profiles againts ASU web standard guidelines in order to identify
+which users are not in compliance.</p>
+                  <span class="floatRight blueBtn"><a href="#!/reports/isearchaudit">Run</a></span>
+                </div>
+            </div>
+            <br>
+            <div layout="row" layout-align="left" flex="90" class="reportRow centerRow">
+                <div flex="10">
+                  <span class="fa-stack fa-lg" style="font-size:3em;">
+                    <i class="fa fa-circle fa-stack-2x asuGray"></i>
+                    <i class="fa fa-check-square-o fa-stack-1x fa-inverse"></i>
+                  </span>
+                </div>
+                <div flex="88"  style="padding-top:10px;">
+                  <span class="reportTitle">Website Audit Checklist</span>
+                  <p style="margin-top:4px;">The website audit tool will provide a report against any webspark themed drupal site. This tool will test compliance on any given website
+againts ASU web branding best practices.</p>
+                  <span class="floatRight blueBtn"><a href="#!/reports/webaudit">Run</a></span>
+                </div>
+            </div>
+
+        </md-card-content>
+    </md-card>
+</div>
