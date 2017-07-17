@@ -8,6 +8,13 @@ var proxyOptions = {
     changeOrigin: true
 };
 
+// connect to gabes mongo db
+var mongoose = require('mongoose');
+var mongoconnection = process.env.MONGO_URL;
+mongoose.connect(mongoconnection);
+var Site = require('./app/modelsdb/Site');
+var ButtonsTest = require('./app/modelsdb/ButtonsTest');
+
 httpProxy.prototype.onError = function (err) {
     console.log(err);
 };
@@ -38,11 +45,45 @@ var apiProxy = httpProxy.createProxyServer(proxyOptions);
     });
  })
 
+ // get all reports
+ app.get("/allwebauditreports", function (req, res) {
+    console.log("Request made to /allwebauditreports/");
+    // console.log(req.query.url);
+    Site.find(function (err, sites) {
+      if (err) {
+          // Note that this error doesn't mean nothing was found,
+          // it means the database had an error while searching, hence the 500 status
+          res.status(500).send(err)
+      } else {
+          // send the list of all sites
+          // res.json(sites);
+          // res.render('../views/pages/allreports', { sites });
+          console.log(sites);
+          return res.json({sites: sites})
+      }
+    })
+ })
+
+// get a specific site report
+ app.get("/webauditreport/:reportId", function (req, res) {
+   console.log("Request made to /webauditreport");
+   var reportId = req.params.reportId;
+
+   // If query IS passed into .find(), filters by the query parameters
+  ButtonsTest.find({"siteID": reportId}, function (err, buttonstests) {
+      if (err) {
+          res.status(500).send(err)
+      } else {
+          res.json({report: buttonstests});
+      }
+  });
+ })
+
  apiProxy.on('error', function(e) {
    console.log(e);
  });
 
- /* serves all the static files */
+ /* serves all the static files (Angular) */
  app.get(/^(.+)$/, function(req, res){
      console.log('static file request : ' + req.params[0]);
      res.sendFile( __dirname + req.params[0]);

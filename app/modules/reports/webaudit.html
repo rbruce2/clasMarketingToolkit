@@ -1,7 +1,9 @@
 <p class="modTitle">Reports - Web Audit</p>
 <span class="floatRightTop blueBtn"><a href="#!/reports">More Reports</a></span>
-<div class="md-padding" flex layout-sm="column">
-    <md-card class="fullHeight">
+
+<!-- Report Request Form -->
+<div class="md-padding fade" flex layout-sm="column" ng-if="!vm.ranReport">
+    <md-card>
         <md-card-content>
             <br>
             <h2 class="text-center">Which website would you like to audit?</h2><br>
@@ -15,7 +17,182 @@
             <div class="text-center">
               <span class="blueBtn"><a href="#!/reports/webaudit">Run</a></span>
             </div>
+            <br>
+            <br>
+            <br>
+            <div layout="row">
+              <div flex="70">
+                <div class="webAuditInstructions">
+                  <i class="fa fa-info-circle fa-2x"></i>
+                  <h3>Web Audit Guidelines</h3>
+                  <p>The Audit scans all sites within a department for compliance with <a href="https://brandguide.asu.edu/web-standards/isearch-profiles" target="_blank">ASU iSearch brand standards.</a> Each profile is assigned a score, between 0 and 100.</p>
+                  <p>This tool is designed for directory administrators, communicators and managers to get a snapshot of their iSearch department's health and identify areas of improvement for each profile.</p>
+                  <p>Along with a percentage for each profile, the tool will display error messages for each profile highlighting the deficiency.</p>
+                  <p>Faculty, staff, students and student workers have different expectations for profile completeness.</p>
+                <br>
+                </div>
+              </div>
+              <div flex="30">
+                <div class="">
+                  <md-toolbar class="md-theme-light">
+                    <h2 class="md-toolbar-tools">
+                      <span style="color:#ffffff">Recent Audits</span>
+                    </h2>
+                  </md-toolbar>
 
+                  <md-content>
+                    <md-list>
+                      <md-list-item class="md-3-line" ng-repeat="site in vm.sites | orderBy:'-created_at'">
+                        <div class="md-list-item-text">
+                          <h3>{{site.url}}</h3>
+                          <h4>{{site.created_at | date: 'short'}}</h4>
+                          <!-- <p>{{item.notes}}</p> -->
+                        </div>
+                        <md-button class="md-secondary" ng-click="vm.getSiteReport(site._id, site.url)">Review</md-button>
+                        <md-divider ng-if="!$last"></md-divider>
+                      </md-list-item>
+                    </md-list>
+                  </md-content>
+                </div>
+              </div>
+            </div>
         </md-card-content>
     </md-card>
 </div>
+
+<!-- Site Report Data -->
+<div class="md-padding" flex layout-sm="column" ng-if="vm.ranReport">
+    <md-card class="">
+      <!-- loader -->
+      <!-- <md-progress-linear md-mode="indeterminate" ng-if="vm.loading"></md-progress-linear> -->
+      <!-- <md-card-content id="loading" ng-if="vm.loading" class="text-center"> -->
+        <!-- loading...{{load_notes}} -->
+        <!-- <h2 class="text-center" style="margin-bottom:0px;">Generating iSearch Audit Report</h2><br>
+        <img src="/app/assets/images/searchReportnodither.gif" alt="" style="width:400px;">
+        <p style="padding-bottom:25px;font-weight:bold;">This may take a few minutes to load. Please be patient and <u>do not reload this page.</u></p>
+      </md-card-content> -->
+
+      <md-card-content class="fade">
+        <br>
+        <h2 class="text-center reportTitle">{{vm.siteUrl}}</h2>
+        <p class="text-center reportSubtitle">Web Audit Report</p>
+        <span class="floatRightTop blueBtn ng-scope">
+          <a href="" ng-click="vm.backToiSearchAuditList()">Back</a>
+        </span>
+        <br>
+        <div class="reportResults" layout="row">
+
+          <div flex="70" class="" id="reportResults">
+            <div class="userResult" ng-repeat="link in vm.overallLinkGrades | filter: vm.lessThan('overallgrade', vm.scoreFilter) | filter: { pagelink: vm.searchInput } track by $index" ng-click="vm.togglePageslide(user.idxIdentifier)" >
+              <div layout="row" class="">
+                <div flex="95">
+                  <p style="padding:0px;">
+                    <strong>{{link.pagelink}}</strong>
+                  </p>
+                </div>
+                <div flex>
+                  <span class="resultPriDep" style="margin:10px;">{{link.primaryDepartment}}
+                    <span ng-class="{'complete' : link.overallgrade == 100, 'good' : link.overallgrade < 100 && link.overallgrade > 89, 'fair' : link.overallgrade <= 89 && link.overallgrade >= 75, 'bad' : link.overallgrade < 75}">{{link.overallgrade | number:0}}%</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div flex="30" layout="column" style="padding-left:28px;margin-top:-7px;">
+            <md-subheader style="background-color:#ffffff;">
+            <div class="overallResults">
+              <p class="overallTitle">Overall Score
+                <span class="detailsIcon">
+                  <md-tooltip md-direction="left" ng-if="vm.showOverallDetails === false">Show details</md-tooltip>
+                  <md-tooltip md-direction="left" ng-if="vm.showOverallDetails === true">Overall Score</md-tooltip>
+                  <i class="fa fa-info-circle" ng-click="vm.showOverallDetails = !vm.showOverallDetails"></i>
+                </span>
+              </p>
+              <p style="color:#ffffff;padding-bottom:14px;padding-top:14px;" ng-if="vm.showOverallDetails === false"><ng-gauge size="200" type="full" thick="7" used="vm.allSitesGrade | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge></p>
+              <div style="color:#ffffff;padding:14px;overflow:auto;" class="container" ng-if="vm.showOverallDetails ===  true">
+                <div class="row" style="padding-top:20px;">
+                  <div class="colGauge">
+                    <ng-gauge size="120" type="semi" label="Unit Name" thick="4" used="vm.allSitesGrade_unitnamegrade | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge>
+                  </div>
+                  <div class="colGauge">
+                    <ng-gauge size="120" type="semi" label="Buttons" thick="4" used="vm.allSitesGrade_buttonsgrade | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge>
+                  </div>
+                </div>
+                <div class="row" style="padding-top:20px;">
+                  <div class="colGauge">
+                    <ng-gauge size="120" type="semi" label="ASU Links" thick="4" used="vm.allSitesGrade_globalasulinksgrade | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge>
+                  </div>
+                  <!-- <div class="colGauge">
+                    <ng-gauge size="120" type="semi" label="Primary Department" thick="4" used="vm.overall_total_primDep | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge>
+                  </div> -->
+                </div>
+                <!-- <div class="row" style="padding-top:20px;">
+                  <div class="colGauge">
+                    <ng-gauge size="120" type="semi" label="Biography" thick="4" used="vm.overall_total_bio | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge>
+                  </div>
+                  <div class="colGauge">
+                    <ng-gauge size="120" type="semi" label="Short Bio" thick="4" used="vm.overall_total_shortBio | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <div class="overallWarnings">
+              <div class="reworkDirectory" ng-if="vm.reworkDirectory >= 10">
+                <i class="fa fa-warning"></i>
+                <span style="line-height:16px;">There are <strong>{{vm.reworkDirectory}}</strong> profiles with duplicate titles for this department. This suggests that the directory structure is not in compliance with ASU branding standards.</span>
+                <p class="reviewStandardsBtn">
+                  <md-button ng-click="vm.showDirectoryPresentation($event)">
+                  Review Standards
+                </md-button>
+              </p>
+              </div>
+            </div>
+            <div class="filters">
+              <md-input-container>
+                <input mdInput placeholder="Quick find" ng-model="vm.searchInput">
+                <md-icon><i class="fa fa-search"></i></md-icon>
+              </md-input-container>
+              <br>
+              <p><strong>Filter by score:</strong></p>
+              <p>
+                <md-slider flex class="md-primary" md-discrete ng-model="vm.scoreFilter" step="1" min="0" max="100" aria-label="overall score"></md-slider>
+                <br>
+                <div ng-click="vm.scoreFilter = 75" class="text-center filterBtn" >Completeness less than 75%</div>
+                <br>
+                <div ng-click="vm.scoreFilter = 60" class="text-center filterBtn">Completeness less than 60%</div>
+                <br>
+                <div ng-click="vm.scoreFilter = 50" class="text-center filterBtn">Completeness less than 50%</div>
+                <br>
+                <div ng-click="vm.scoreFilter = 100" class="text-center filterBtn">Show All</div>
+                <br>
+                <md-menu>
+                  <md-button class="md-primary floatRight" ng-click="$mdMenu.open($event)">Report Options</md-button>
+                  <md-menu-content width="2">
+                    <md-menu-item>
+                      <md-button ng-click="vm.printDiv(reportResults)">
+                        <i class="fa fa-print"></i>
+                         Print
+                      </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                      <md-button ng-csv="vm.isearch_results | filter: vm.lessThan('audit_score', vm.scoreFilter) | filter: { pagelink: vm.searchInput } " csv-header="['Name', 'Email', 'Primary Title', 'Audit Score', 'iSearch Profile']" csv-column-order="['displayName', 'emailAddress', 'primaryTitle', 'audit_score', 'isearchProfileUrl']" filename="iSearchAuditReport.csv">
+                        <i class="fa fa-file-excel-o"></i>
+                         Export to CSV/Excel
+                      </md-button>
+                    </md-menu-item>
+                  </md-menu-content>
+                </md-menu>
+
+              </p>
+            </div>
+            </md-subheader>
+
+          </div>
+
+        </div>
+      </md-card-content>
+    </md-card>
+</div>
+<!-- END: Report Results -->

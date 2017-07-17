@@ -24,9 +24,9 @@
 		function iSearchAuditWizard(ReportsService, $rootScope, $http, $location) {
 			/*jshint validthis: true */
 			var vm = this;
-			vm.params = $location.search();
-			console.log($location.search());
-
+			vm.params = 18;
+			// vm.params = $location.search();
+			// console.log($location.search());
 
 
 		} //end iSearchAuditWizardCtrl function

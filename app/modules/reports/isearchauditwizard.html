@@ -4,6 +4,9 @@
         <md-card-content>
             <h2 class="text-center">wizard here</h2><br>
             <p>{{vm.params}}</p>
+            <ul>
+              <li ng-repeat="site in vm.sites">{{site.url}}</li>
+            </ul>
 
             <div layout="row" layout-align="left" flex="90" class="reportRow centerRow">
                 <div flex="10">

@@ -20,7 +20,8 @@
     "glob": "~4.0.5",
     "grunt-cli": "~0.1.13",
     "grunt-express-server": "^0.5.3",
-    "http-proxy": "^1.16.2"
+    "http-proxy": "^1.16.2",
+    "mongoose": "^4.11.2"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

@@ -4,3 +4,7 @@
   padding-left: 32px;
   padding-top: 20px;
 }
+
+.md-sidenav-left md-list{
+  padding-top: 27px !important;
+}

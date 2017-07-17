@@ -27,7 +27,8 @@
     "ang-accordion": "*",
     "angular-img-fallback": "^0.2.0",
     "jquery.facedetection": "^2.0.2",
-    "ng-csv": "^0.3.6"
+    "ng-csv": "^0.3.6",
+    "Case": "^1.5.3"
   },
   "resolutions": {
     "angular": "^1.6.4"

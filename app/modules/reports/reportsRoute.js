@@ -21,7 +21,7 @@ angular.module('reports')
 			.state('home.webaudit',{
 				url:'/reports/webaudit',
 				templateUrl: 'app/modules/reports/webaudit.html',
-				controller: 'ReportsCtrl',
+				controller: 'WebAuditCtrl',
 				controllerAs: 'vm'
 			})
 			.state('home.isearchaudit',{

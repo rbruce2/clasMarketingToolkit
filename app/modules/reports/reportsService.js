@@ -64,6 +64,12 @@
 						var photoUrlStatus = $q.all(promises)
 						return photoUrlStatus
 
+				},
+				getAllWebAuditReports: function (success, error) {
+					$http.get('allwebauditreports').then(success, error)
+				},
+				getWebAuditReoprt: function (reportId, success, error) {
+					$http.get('webauditreport/' + reportId).then(success, error)
 				}
 			};
 

@@ -63,6 +63,10 @@
   padding-left: 40px;
 }
 
+.linkResult p{
+  margin: 10px;
+}
+
 .resultPriDep{
   float: right;
 
@@ -315,6 +319,32 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 }
 
 .isearchAuditInstructions a{
+  color: #8c1d40;
+}
+
+.webAuditInstructions{
+  padding: 10px;
+  background-color: rgba(245, 242, 242, 0.42);
+  width: 92%;
+  margin: 0 auto;
+  border-radius: 5px;
+  padding-bottom: 20px;
+}
+
+.webAuditInstructions i{
+  position: absolute;
+  color: #3498db;
+}
+
+.webAuditInstructions h3{
+  text-align: center;
+}
+
+.webAuditInstructions p{
+  padding: 5px;
+}
+
+.webAuditInstructions a{
   color: #8c1d40;
 }
 
