@@ -87,7 +87,7 @@
               <div layout="row" class="">
                 <div flex="95">
                   <p style="padding:0px;">
-                    <strong>{{link.pagelink}}</strong>
+                    {{link.pagelink}}
                   </p>
                 </div>
                 <div flex>
@@ -110,7 +110,7 @@
                   <i class="fa fa-info-circle" ng-click="vm.showOverallDetails = !vm.showOverallDetails"></i>
                 </span>
               </p>
-              <p style="color:#ffffff;padding-bottom:14px;padding-top:14px;" ng-if="vm.showOverallDetails === false"><ng-gauge size="200" type="full" thick="7" used="vm.allSitesGrade | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge></p>
+              <p style="color:#ffffff;padding-bottom:14px;padding-top:14px;" ng-if="vm.showOverallDetails === false"><ng-gauge size="200" type="full" thick="7" used="vm.allSitesGrade | number:0" total="100" cap="round"  foreground-color="#ffffff" background-color="rgba(255,255,255, 0.4)" append="%"></ng-gauge><p style="color:#ffffff;font-size:16px;padding-bottom:10px;" ng-if="vm.showOverallDetails === false">Total Links: {{vm.linkCount}}</p></p>
               <div style="color:#ffffff;padding:14px;overflow:auto;" class="container" ng-if="vm.showOverallDetails ===  true">
                 <div class="row" style="padding-top:20px;">
                   <div class="colGauge">

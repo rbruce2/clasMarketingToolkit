@@ -40,6 +40,7 @@
 				ReportsService.getWebAuditReoprt(reportId, function (res) {
 						console.log(res);
 						vm.siteReport = res.data;
+						vm.linkCount = 0;
 						var overallgradeobject = [];
 						var allSitesGradeArray = [];
 						var allSitesGradeArray_unitnamegrade = [];
@@ -49,8 +50,7 @@
 						// run tests
 						vm.siteReport.report.forEach(function(element) {
 
-						// console.log(element.pageLink);
-						// console.log(element._id);
+						vm.linkCount++;
 
 						// unit name grade
 						var ourUnitName = element.results[0].unitName;
