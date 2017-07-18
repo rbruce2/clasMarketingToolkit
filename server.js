@@ -1,3 +1,4 @@
+var sslRedirect = require('heroku-ssl-redirect');
 var express = require("express");
 var app = express();
 
@@ -21,6 +22,9 @@ httpProxy.prototype.onError = function (err) {
 
 
 var apiProxy = httpProxy.createProxyServer(proxyOptions);
+
+ // enable ssl redirect
+ app.use(sslRedirect());
 
  app.use(express.static(__dirname + '/app'));
 
