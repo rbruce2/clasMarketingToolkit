@@ -83,11 +83,11 @@
         <div class="reportResults" layout="row">
 
           <div flex="70" class="" id="reportResults">
-            <div class="userResult" ng-repeat="link in vm.overallLinkGrades | filter: vm.lessThan('overallgrade', vm.scoreFilter) | filter: { pagelink: vm.searchInput } track by $index" ng-click="vm.togglePageslide(user.idxIdentifier)" >
+            <div class="userResult" ng-repeat="link in vm.overallLinkGrades | filter: vm.lessThan('overallgrade', vm.scoreFilter) | filter: { pagelink: vm.searchInput } track by $index" ng-click="vm.togglePageslide(link.idxIdentifier)" >
               <div layout="row" class="">
                 <div flex="95">
                   <p style="padding:0px;">
-                    {{link.pagelink}}
+                    {{link.pagelink}}{{link.idxIdentifier}}
                   </p>
                 </div>
                 <div flex>
@@ -196,3 +196,49 @@
     </md-card>
 </div>
 <!-- END: Report Results -->
+
+<!-- pageslide template -->
+<div class="someClass" ng-if="vm.checked" ng-click="vm.togglePageslide()" style="position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.59);z-index:60;">
+</div>
+<div pageslide ps-open="vm.checked" ps-size="33%">
+    <div style="padding:20px" id="demo-right">
+      <div class="detailsHeaderInfo">
+        <div class="dhiLeft">
+          <h2><strong>{{vm.LinkSlider.pageTitle}}</strong></h2>
+          <p>{{vm.LinkSlider.pageUrl}}</p>
+        </div>
+        <div class="dhiRight">
+          <a href="" ng-click="vm.togglePageslide()" ><i class="fa fa-close"></i></a>
+          <p class="detailsOverallScore" ng-class="{'complete' : vm.UserSlider.audit_score == 100, 'good' : vm.UserSlider.audit_score < 100 && vm.UserSlider.audit_score > 89, 'fair' : vm.UserSlider.audit_score <= 89 && vm.UserSlider.audit_score >= 75, 'bad' : vm.UserSlider.audit_score < 75}">{{vm.UserSlider.audit_score | number:0 }}%</p>
+        </div>
+      </div>
+      <div class="tabContent" style="clear:both;" flex>
+            <md-content class="md-padding" style="background-color:#ffffff;">
+              <ang-accordion close-icon-class="fa fa-warning" open-icon-class="fa fa-arrow" >
+                  <collapsible-item item-title="Test: Unit Name">
+                      <div>
+                        <p><strong>Unit Name:</strong> {{vm.LinkSlider.audit_unitnamegrade.unitName}} <span>{{vm.LinkSlider.audit_unitnamegrade.grade}}</span></p>
+                      </div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Test: Global ASU links">
+                      <div>
+                        <p>Your site's global links match the webspark standard version</p>
+                      </div>
+                  </collapsible-item>
+                  <collapsible-item item-title="Test: Site buttons test">
+                      <div>
+                        <p ng-repeat="button in vm.LinkSlider.audit_buttonsgrade"><strong>Button text: </strong> {{button.buttonName}} <span>{{button.grade}}</span></p>
+                      </div>
+                  </collapsible-item>
+              </ang-accordion>
+            </md-content>
+      </div>
+      <div class="slideoutFooter">
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+          <md-button class="md-raised" ng-click="vm.togglePageslide()">Close</md-button>
+          <md-button class="md-raised md-primary" style="color:#ffffff;" ng-href="{{vm.LinkSlider.pageUrl}}" target="_blank"><i class="fa fa-link"></i> View page</md-button>
+          <!-- <md-button class="md-raised md-primary" style="color:#ffffff;" onclick="checkImgForFace()"><i class="fa fa-user"></i> Check image</md-button> -->
+        </section>
+      </div>
+    </div>
+</div>

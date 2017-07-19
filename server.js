@@ -33,14 +33,14 @@ var apiProxy = httpProxy.createProxyServer(proxyOptions);
     res.sendFile('index.html')
  });
 
- // Grab all requests to the server with "/isearchproxy/".
+ // isearchReport: Grab all requests to the server with "/isearchproxy/".
  app.get("/isearchproxy/:depId", function(req, res) {
      console.log("Request made to /isearchproxy/");
      console.log(req.params.depId);
      apiProxy.web(req, res, {target: apiForwardingUrl+req.params.depId});
  });
 
- // Check image status
+ // Check image status (not in use)
  app.get("/checkimagestatus", function (req, res) {
     console.log("Request made to /checkimagestatus/");
     console.log(req.query.url);
@@ -49,7 +49,7 @@ var apiProxy = httpProxy.createProxyServer(proxyOptions);
     });
  })
 
- // get all reports
+ //webauditReport: get all reports
  app.get("/allwebauditreports", function (req, res) {
     console.log("Request made to /allwebauditreports/");
     // console.log(req.query.url);
@@ -68,7 +68,7 @@ var apiProxy = httpProxy.createProxyServer(proxyOptions);
     })
  })
 
-// get a specific site report
+//webauditReport: get a specific site report
  app.get("/webauditreport/:reportId", function (req, res) {
    console.log("Request made to /webauditreport");
    var reportId = req.params.reportId;
@@ -83,6 +83,43 @@ var apiProxy = httpProxy.createProxyServer(proxyOptions);
   });
  })
 
+ /* webauditReport: create new report */
+router.post('/', urlencodedParser, websparkcheck, sitemap, function(req, res, next) {
+
+  var site = req.body.site;
+  var sitemapLinks = req.sitemapLinks;
+
+  var thisSite = new Site({ url: site, links: sitemapLinks });
+  thisSite.save(function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      // console.log(thisSite);
+    }
+  });
+
+  // agenda process
+  var agenda = new Agenda({db: {address: mongoconnection}});
+
+  agenda.define('check dom', function(job, done) {
+    console.log('checking dom...');
+    // console.log(job);
+    var thisSiteID = thisSite._id;
+    test(thisSiteID);
+    done();
+  });
+
+  agenda.on('ready', function() {
+    agenda.now('check dom');
+    agenda.start();
+  });
+  // agenda process
+
+  // res.render('../views/pages/testrunner-started', { site, thisId: thisSite._id });
+});
+
+
+ // api proxy error handling
  apiProxy.on('error', function(e) {
    console.log(e);
  });

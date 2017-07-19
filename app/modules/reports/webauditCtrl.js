@@ -50,15 +50,21 @@
 						// run tests
 						vm.siteReport.report.forEach(function(element) {
 
-						vm.linkCount++;
-
 						// unit name grade
 						var ourUnitName = element.results[0].unitName;
 						var ourUnitNameCasing = Case.of(ourUnitName);
 						if (ourUnitNameCasing == 'title'){
 							var unitnamegrade = 100;
+							element.auditResults_unitnamegrade = {
+								'unitName' : ourUnitName,
+								'grade' : unitnamegrade
+							}
 						} else {
 							var unitnamegrade = 0;
+							element.auditResults_unitnamegrade = {
+								'unitName' : ourUnitName,
+								'grade' : unitnamegrade
+							}
 						}
 
 						// console.log(unitnamegrade);
@@ -74,17 +80,38 @@
 
 						var globalasulinksgrade = baselineLinksObject === ourLinksObject ? 100 : 0;
 
-						// console.log(globalasulinksgrade);
+						if (globalasulinksgrade === 100) {
+							element.auditResults_globalasulinksgrade = {
+								'grade' : globalasulinksgrade
+							}
+						}
+						else {
+							element.auditResults_globalasulinksgrade = {
+								'grade' : globalasulinksgrade
+							}
+						}
+
 						// global asu links grade
 
 						// buttons grade
 						var ourButtonsData = element.results[0].buttons;
 						var ourButtonsPossibleTotal = element.results[0].buttons.length*100;
 						var correctAnswers = 0;
+						element.auditResults_buttonsgrade = [];
 
 						for(var i = 0; i < ourButtonsData.length; ++i){
 								if((Case.of(ourButtonsData[i]) == 'sentence')||(Case.of(ourButtonsData[i]) == 'header')){
 									correctAnswers++;
+									element.auditResults_buttonsgrade.push({
+										'buttonName' : ourButtonsData[i],
+										'grade' : 100
+									})
+								}
+								else {
+									element.auditResults_buttonsgrade.push({
+										'buttonName' : ourButtonsData[i],
+										'grade' : 0
+									})
 								}
 						}
 
@@ -114,9 +141,10 @@
 							unitnamegrade: unitnamegrade,
 							globalasulinksgrade: globalasulinksgrade,
 							buttonsgrade: buttonsgrade,
-							pageid: element._id
+							pageid: element._id,
+							idxIdentifier: vm.linkCount
 						};
-
+						vm.linkCount++;
 						overallgradeobject.push(singlelinkoverallgrades);
 				});
 						console.log(overallgradeobject);
@@ -127,11 +155,31 @@
 						vm.allSitesGrade_buttonsgrade = calculateAverage(allSitesGradeArray_buttonsgrade);
 						vm.allSitesGrade_globalasulinksgrade = calculateAverage(allSitesGradeArray_globalasulinksgrade);
 
+						console.log(vm.siteReport);
 						vm.ranReport = true;
 				}, function (res_err) {
 						console.log(res_err);
 				})
 			}
+
+			vm.togglePageslide = function(linkIndex){
+
+					vm.LinkSlider = {}
+
+					console.log('im here');
+					console.log(linkIndex);
+					console.log(vm.siteReport.report[3].results[0].pageTitle);
+					if (!vm.checked) {
+						vm.LinkSlider.pageTitle = vm.siteReport.report[linkIndex].results[0].pageTitle
+						vm.LinkSlider.pageUrl = vm.siteReport.report[linkIndex].pageLink
+						vm.LinkSlider.audit_unitnamegrade = vm.siteReport.report[linkIndex].auditResults_unitnamegrade
+						vm.LinkSlider.audit_globalasulinksgrade = vm.siteReport.report[linkIndex].auditResults_globalasulinksgrade
+						vm.LinkSlider.audit_buttonsgrade = vm.siteReport.report[linkIndex].auditResults_buttonsgrade
+
+					}
+
+          vm.checked = !vm.checked;
+      }
 
 
 			// isearch Audit Filter (less than)
@@ -149,7 +197,7 @@
 
 
 
-		} //end iSearchAuditWizardCtrl function
+		} //end webaudit Ctrl function
 
 		// helper functions
 		//calculate average of array of values
