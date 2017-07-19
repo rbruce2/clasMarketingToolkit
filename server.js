@@ -16,6 +16,12 @@ mongoose.connect(mongoconnection);
 var Site = require('./app/modelsdb/Site');
 var ButtonsTest = require('./app/modelsdb/ButtonsTest');
 
+const Agenda = require('agenda');
+
+var jsonParser = bodyParser.json();
+
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
 httpProxy.prototype.onError = function (err) {
     console.log(err);
 };
@@ -84,7 +90,7 @@ var apiProxy = httpProxy.createProxyServer(proxyOptions);
  })
 
  /* webauditReport: create new report */
-router.post('/', urlencodedParser, websparkcheck, sitemap, function(req, res, next) {
+app.post('/createwebauditreport', urlencodedParser, websparkcheck, sitemap, function(req, res, next) {
 
   var site = req.body.site;
   var sitemapLinks = req.sitemapLinks;

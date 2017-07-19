@@ -70,6 +70,9 @@
 				},
 				getWebAuditReoprt: function (reportId, success, error) {
 					$http.get('webauditreport/' + reportId).then(success, error)
+				},
+				creteNewWebauditReport: function (url, success, error) {
+					$http.post('createwebauditreport', url).then(success, error)
 				}
 			};
 
