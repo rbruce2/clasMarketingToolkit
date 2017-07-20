@@ -18,12 +18,12 @@ angular.module('reports')
 				controller: 'ReportsCtrl',
 				controllerAs: 'vm'
 			})
-			.state('home.webaudit',{
-				url:'/reports/webaudit',
-				templateUrl: 'app/modules/reports/webaudit.html',
-				controller: 'WebAuditCtrl',
-				controllerAs: 'vm'
-			})
+			// .state('home.webaudit',{
+			// 	url:'/reports/webaudit',
+			// 	templateUrl: 'app/modules/reports/webaudit.html',
+			// 	controller: 'WebAuditCtrl',
+			// 	controllerAs: 'vm'
+			// })
 			.state('home.isearchaudit',{
 				url:'/reports/isearchaudit',
 				templateUrl: 'app/modules/reports/isearchaudit.html',
