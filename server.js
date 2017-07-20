@@ -1,6 +1,7 @@
 var sslRedirect = require('heroku-ssl-redirect');
 var express = require("express");
 var app = express();
+var bodyParser = require('body-parser');
 
 var httpProxy = require('http-proxy');
 var apiForwardingUrl = 'https://isearch.asu.edu/endpoints/dept-profiles/json/';
@@ -11,16 +12,20 @@ var proxyOptions = {
 
 // connect to gabes mongo db
 var mongoose = require('mongoose');
-var mongoconnection = process.env.MONGO_URL;
+var mongoconnection = 'mongodb://clastest:blah33@ds143141.mlab.com:43141/clastestsuite';
+// var mongoconnection = process.env.MONGO_URL;
 mongoose.connect(mongoconnection);
 var Site = require('./app/modelsdb/Site');
 var ButtonsTest = require('./app/modelsdb/ButtonsTest');
+var websparkcheck = require('./app/middleware/websparkcheck');
+var sitemap = require('./app/middleware/sitemap');
+//-- Helper
+var test = require("./app/helpers/test");
 
 const Agenda = require('agenda');
 
-var jsonParser = bodyParser.json();
-
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 httpProxy.prototype.onError = function (err) {
     console.log(err);
@@ -90,8 +95,9 @@ var apiProxy = httpProxy.createProxyServer(proxyOptions);
  })
 
  /* webauditReport: create new report */
-app.post('/createwebauditreport', urlencodedParser, websparkcheck, sitemap, function(req, res, next) {
-
+app.post('/createwebauditreport', websparkcheck, sitemap, function(req, res, next) {
+  console.log("Request made to /createwebauditreport");
+  console.log(req.body);
   var site = req.body.site;
   var sitemapLinks = req.sitemapLinks;
 
@@ -116,7 +122,7 @@ app.post('/createwebauditreport', urlencodedParser, websparkcheck, sitemap, func
   });
 
   agenda.on('ready', function() {
-    agenda.now('check dom');
+    agenda.schedule('now', 'check dom');
     agenda.start();
   });
   // agenda process

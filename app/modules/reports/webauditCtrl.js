@@ -181,6 +181,15 @@
           vm.checked = !vm.checked;
       }
 
+			// create new report
+			vm.createNewReport = function (){
+				console.log('createNewReport running');
+				ReportsService.creteNewWebauditReport(vm.webaudit, function (res) {
+					console.log(res);
+				}, function (res_err) {
+					console.log(res_err);
+				})
+			}
 
 			// isearch Audit Filter (less than)
 			vm.scoreFilter = 100

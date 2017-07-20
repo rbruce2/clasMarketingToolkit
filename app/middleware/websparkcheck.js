@@ -1,5 +1,8 @@
 var websparkcheck = function(req, res, next) {
 
+  console.log('in websparkcheck');
+  console.log(req.body.site);
+
   var request = require('request');
   var cheerio = require('cheerio');
 
