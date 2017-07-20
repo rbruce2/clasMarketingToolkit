@@ -5,7 +5,7 @@
   "author": "rbruce2@asu.edu",
   "engines": {
     "node": "4.8.4",
-    "npm": "1.4.x"
+    "npm": "3.10.8"
   },
   "scripts": {
     "start": "grunt",
