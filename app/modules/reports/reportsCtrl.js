@@ -55,6 +55,8 @@
 				$rootScope.load_notes = 0;
 				vm.ranReport = true;
 				vm.loading = true;
+				vm.reportLoadingText = 'This may take a few minutes to load. Please be patient and <u>do not reload this page.</u>';
+
 
 				//set current report title
 				if (vm.department == 1409) {
@@ -84,7 +86,6 @@
 					for (var i = 0; i < res.length; i++) {
 						for (var x = 0; x < res[i].data.length; x++) {
 								vm.isearch_results.push(res[i].data[x]);
-								// overallScores.push(totalScore);
 						}
 					}
 
@@ -93,6 +94,7 @@
 					}, function(res_err) {
 						console.log('error')
 						console.log(res_err)
+						vm.reportLoadingText = '<span style="color:red">There has been an error processing your report. Please submit a help request ticket using the help icon on the lower left-hand side of your screen and one of our developers will contact you soon. Sorry for any inconvenience.</span>';
 					})
 
 			}; //end startProfileAudit
@@ -511,6 +513,8 @@
 				vm.reworkDirectory = 0;
 				vm.currentReportTitle = '';
 				vm.showOverallDetails = false
+				vm.searchInput = '';
+				vm.reportLoadingText = 'This may take a few minutes to load. Please be patient and <u>do not reload this page.</u>';
 				overallScores = []
 				overallPhotoFail = 0
 				overallPhoneFail = 0

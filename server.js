@@ -7,7 +7,8 @@ var httpProxy = require('http-proxy');
 var apiForwardingUrl = 'https://isearch.asu.edu/endpoints/dept-profiles/json/';
 
 var proxyOptions = {
-    changeOrigin: true
+    changeOrigin: true,
+    proxyTimeout: 300000
 };
 
 // connect to gabes mongo db

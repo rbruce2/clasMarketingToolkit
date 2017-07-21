@@ -18,8 +18,6 @@
 
 		function Reports ($http, $q, $rootScope) {
 
-			// var baseUrl = 'https://isearch.asu.edu/endpoints/dept-profiles/json/';
-
 			return {
 				getDepTree: function(success, error) {
 					$http.get('depTree.json').then(success, error);
@@ -31,8 +29,6 @@
 						var promise = $http.get('isearchproxy/' + depId);
 						promises.push(promise);
 					});
-
-					// $rootScope.load_notes = 'loading dep ids: ' + promises;
 
 					var depsInfo = $q.all(promises);
 					return depsInfo
