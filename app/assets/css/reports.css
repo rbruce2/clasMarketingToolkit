@@ -388,3 +388,8 @@ md-input-container{
   line-height: 26px;
   font-weight: 500;
 }
+
+.sortResults span:hover{
+  cursor: pointer;
+  color: #3498db;
+}

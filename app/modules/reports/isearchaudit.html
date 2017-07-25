@@ -138,7 +138,7 @@
             <div class="reportResults" layout="row">
 
               <div flex="70" class="" id="reportResults">
-                <div class="userResult" ng-repeat="user in vm.isearch_results | filter: vm.lessThan('audit_score', vm.scoreFilter) | filter: { displayName: vm.searchInput } track by $index" ng-click="vm.togglePageslide(user.idxIdentifier)" >
+                <div class="userResult" ng-repeat="user in vm.isearch_results | filter: vm.lessThan('audit_score', vm.scoreFilter) | filter: { displayName: vm.searchInput } | orderBy: vm.sortResults track by $index" ng-click="vm.togglePageslide(user.idxIdentifier)" >
                   <img ng-src="{{user.photoUrl}}" fallback-src="/app/assets/images/imgFallback.png" alt="">
                   <p>
                     <strong>{{user.displayName}}</strong>
@@ -204,6 +204,11 @@
                     <input mdInput placeholder="Quick find" ng-model="vm.searchInput">
                     <md-icon><i class="fa fa-search"></i></md-icon>
                   </md-input-container>
+                  <p class="sortResults">
+                    <strong>Sort by:</strong>
+                    <span ng-if="vm.sortResults == '-audit_score'" ng-click="vm.sortResults = 'audit_score'"> Highest score <i class="fa fa-sort-amount-desc"></i></span>
+                    <span ng-if="vm.sortResults == 'audit_score'" ng-click="vm.sortResults = '-audit_score'"> Lowest score <i class="fa fa-sort-amount-asc"></i></span>
+                  </p>
                   <br>
                   <p><strong>Filter by score:</strong></p>
                   <p>
