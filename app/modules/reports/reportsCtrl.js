@@ -94,7 +94,8 @@
 					}, function(res_err) {
 						console.log('error')
 						console.log(res_err)
-						vm.reportLoadingText = '<span style="color:red">There has been an error processing your report. Please submit a help request ticket using the help icon on the lower left-hand side of your screen and one of our developers will contact you soon. Sorry for any inconvenience.</span>';
+						vm.startProfileAudit()
+						// vm.reportLoadingText = '<span style="color:red">There has been an error processing your report. Please submit a help request ticket using the help icon on the lower left-hand side of your screen and one of our developers will contact you soon. Sorry for any inconvenience.</span>';
 					})
 
 			}; //end startProfileAudit
