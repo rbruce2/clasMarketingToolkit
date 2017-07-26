@@ -204,11 +204,22 @@
                     <input mdInput placeholder="Quick find" ng-model="vm.searchInput">
                     <md-icon><i class="fa fa-search"></i></md-icon>
                   </md-input-container>
-                  <p class="sortResults">
+                  <!-- <p class="sortResults">
                     <strong>Sort by:</strong>
                     <span ng-if="vm.sortResults == '-audit_score'" ng-click="vm.sortResults = 'audit_score'"> Highest score <i class="fa fa-sort-amount-desc"></i></span>
                     <span ng-if="vm.sortResults == 'audit_score'" ng-click="vm.sortResults = '-audit_score'"> Lowest score <i class="fa fa-sort-amount-asc"></i></span>
-                  </p>
+                  </p> -->
+                  <div layout="row">
+                    <md-input-container>
+                      <label>Sort</label>
+                      <md-select ng-model="vm.sortResults">
+                          <md-option value="-audit_score"> Highest score <i class="fa fa-sort-numeric-desc"></i></md-option>
+                          <md-option value="audit_score"> Lowest score <i class="fa fa-sort-numeric-asc"></i></md-option>
+                          <md-option value="lastName" ng-selected="true"> Last name (A-Z) <i class="fa fa-sort-alpha-asc"></i></md-option>
+                          <md-option value="-lastName"> Last name (Z-A) <i class="fa fa-sort-alpha-desc"></i></md-option>
+                      </md-select>
+                    </md-input-container>
+                  </div>
                   <br>
                   <p><strong>Filter by score:</strong></p>
                   <p>

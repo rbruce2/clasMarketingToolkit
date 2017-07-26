@@ -55,7 +55,7 @@
 				$rootScope.load_notes = 0;
 				vm.ranReport = true;
 				vm.loading = true;
-				vm.sortResults = '-audit_score';
+				vm.sortResults = 'lastName';
 				vm.reportLoadingText = 'This may take a few minutes to load. Please be patient and <u>do not reload this page.</u>';
 
 
